@@ -1,5 +1,5 @@
 class Movie < ActiveRecord::Base
-  attr_accessible :rotten_tomatoes_id, :title, :year
+  attr_accessible :rotten_tomatoes_id, :title, :year, :runtime, :critic_rating, :audience_rating,  :critic_consensus,  :synopsis,  :mpaa,  :netflixsource,  :poster,  :cast,  :director,  :genres, :review_count
 	require 'open-uri'
 	require 'iconv'
   def self.generate_database
@@ -40,21 +40,16 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	def self.scrape_individual
-		# movie_id = movie.rotten_tomatoes_id
-		movie = Movie.find 44
-		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/the_anonymous_people/"))
+	def self.scrape_individual(movie)
+		movie_id = movie.rotten_tomatoes_id
+		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
 		synopsis = get_synopsis(response)
 		critic_consensus = response.css('p.critic_consensus')[0].text
 		num_of_reviews = response.css('p.critic_stats span').select{|stat| stat["itemprop"] == "reviewCount"}[0].text
 		num_of_reviews = num_of_reviews.to_i
 
-		p synopsis
-		movie.review_count = num_of_reviews
-		movie.critic_consensus = critic_consensus
-		movie.synopsis = synopsis
-		movie.save!
-		# sleep(0.17)
+		movie.update_attributes(:review_count => num_of_reviews, :critic_consensus => critic_consensus, :synopsis => synopsis)
+		sleep(0.17)
 	end
 
 	def self.get_synopsis(response)
@@ -65,10 +60,8 @@ class Movie < ActiveRecord::Base
 			second_synopsis = response.css('span#movieSynopsisRemaining').text
 			synopsis = first_synopsis.gsub(second_synopsis,'').strip + ' ' + second_synopsis.strip
 		end
-		synopsis
 		ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
-		valid_string = ic.iconv(synopsis << ' ')[0..-2]
-		# response.css('p#movieSynopsis.movie_synopsis').text[0..10000].strip
+		ic.iconv(synopsis << ' ')[0..-2]
 	end
 
 	def self.get_cookie
