@@ -3,9 +3,10 @@
 		<div class="left_col">
 			<div class="poster_container">
 				<img class="poster" src="<%= @movie.poster %>">
-				<a class="play_netflix" href="http://www.netflix.com/WiMovie/<%= @movie.netflixsource %>"><div class="play_button"></div></a>
+				<a class="play_netflix" href="http://www.netflix.com/WiPlayer?movieid=<%= @movie.netflixsource %>"><div class="play_button"></div></a>
 			</div>
 			<div class="under_poster">
+				<div class="genres"><span class="people_lead">Genre</span> <span class="people"><%= @genres %></span></div>
 				<div class="director"><span class="people_lead">Director</span> <span class="people"><%= @movie.director %></span></div>
 				<div class="cast"><span class="people_lead">Cast</span> <span class="people"><%= @movie.cast %></span></div>
 			</div>
@@ -29,8 +30,8 @@
 			<div class="under_title">
 
 				<span class="year_release"><%= @movie.year%></span>
-				<span class="mpaa"><%= @movie.mpaa %></span>
 				<span class="runtime"><%= @movie.runtime %> min</span>
+				<span class="mpaa"><%= @movie.mpaa %></span>
 			</div>
 			<div class="synopsis"><%= @movie.synopsis %></div>
 		</div>
@@ -46,8 +47,8 @@
 		<div class="review_wrap">
 			<div class="reviews_container">
 				<div class="critic_header">
-					<h2>Critics</h2>
-					<span class="critic_consensus"><%= @movie.critic_consensus %></span>
+					<h2 class="consensus_header">Consensus</h2>
+					<span class="critic_consensus">"<%= @movie.critic_consensus %>"</span>
 				</div>
 			</div>
 		</div>

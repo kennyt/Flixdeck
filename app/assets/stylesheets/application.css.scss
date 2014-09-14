@@ -180,7 +180,7 @@ body {
 	padding-right: 10px;
 	position: absolute;
 	bottom: 15px;
-	margin-left: 25px;
+	margin-left: 120px;
 }
 
 .under_title {
@@ -193,7 +193,7 @@ body {
 	color: #A8A8A8;
 	position: absolute;
 	bottom: 13px;
-	margin-left: 80px;
+	margin-left: 15px;
 	letter-spacing: -3px;
 }
 
@@ -299,7 +299,7 @@ body {
 	/*right: 10px;*/
 }
 
-.cast {
+.cast, .director {
 	margin-top: 10px;
 }
 
@@ -312,4 +312,8 @@ body {
 	background-repeat: no-repeat;
 	position: absolute;
 	opacity: .9;
+}
+
+.consensus_header {
+	color: #404040;
 }
