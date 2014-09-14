@@ -41,10 +41,8 @@ class Movie < ActiveRecord::Base
 
 	def self.scrape_individual(movie)
 		movie_id = movie.rotten_tomatoes_id
-		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
-		first_synopsis = response.css('p#movieSynopsis.movie_synopsis').text.split('$(')[0]
-		second_synopsis = response.css('span#movieSynopsisRemaining').text
-		synopsis = first_synopsis.gsub(second_synopsis,'').strip + ' ' + second_synopsis.strip
+		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/the_den/"))
+		synopsis = get_synopsis(response)
 		critic_consensus = response.css('p.critic_consensus')[0].text
 		num_of_reviews = response.css('p.critic_stats span').select{|stat| stat["itemprop"] == "reviewCount"}[0].text
 		num_of_reviews = num_of_reviews.to_i
@@ -56,6 +54,16 @@ class Movie < ActiveRecord::Base
 		sleep(0.17)
 	end
 
+	def self.get_synopsis(response)
+		if response.css('span#movieSynopsisRemaining').length == 0
+			synopsis = response.css('p#movieSynopsis.movie_synopsis').text.strip
+		else
+			first_synopsis = response.css('p#movieSynopsis.movie_synopsis').text.split('$(')[0]
+			second_synopsis = response.css('span#movieSynopsisRemaining').text
+			synopsis = first_synopsis.gsub(second_synopsis,'').strip + ' ' + second_synopsis.strip
+		end
+		synopsis
+	end
 	def self.get_cookie
 		response = open('http://www.rottentomatoes.com/dvd/netflix/#endyear=2014&exclude_rated=true&genres=1%3B2%3B4%3B5%3B6%3B8%3B9%3B10%3B11%3B12%3B18%3B14&maxtomato=100&mintomato=0&mpaa_max=6&mpaa_min=1&startyear=1920&wts_only=false')
 		response.meta['set-cookie']
