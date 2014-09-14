@@ -3,6 +3,11 @@ class MoviesController < ApplicationController
 	# require 'json'
 
 	def show
-		@movies = Movie.order('id').first(500)
+		@movie = false
+		until !@movie == false && @movie.critic_rating > 59
+			rand_id = rand(Movie.count)
+ 			@movie = Movie.first(:conditions => [ "id >= ?", rand_id])
+ 		end
+ 		@audience_class = @movie.audience_rating > 60 ? "fresh_popcorn" : "spilled_popcorn"
 	end
 end

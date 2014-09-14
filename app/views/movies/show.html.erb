@@ -1,13 +1,52 @@
-<% @movies.each do |movie| %>
-	<div><%= movie.title%></div>
-	<div><%= movie.year%></div>
-	<div><%= movie.synopsis %></div>
-	<div>critic: <%= movie.critic_rating %></div>
-	<div>critic consensus: <%= movie.critic_consensus %></div>
-	<div>review count: <%= movie.review_count %></div>
-	<div>audience: <%= movie.audience_rating %></div>
-	<div>cast: <%= movie.cast %></div>
-	<div>director: <%= movie.director %></div>
-	<div><a href="http://www.netflix.com/WiMovie/<%= movie.netflixsource %>">go to netflix</a></div>
-	<br><br><br>
-<% end %>
+<div class="whitewrap">
+	<div class="movie">
+		<div class="left_col">
+			<div class="poster_container">
+				<img class="poster" src="<%= @movie.poster %>">
+				<a class="play_netflix" href="http://www.netflix.com/WiMovie/<%= @movie.netflixsource %>"><div class="play_button"></div></a>
+			</div>
+			<div class="under_poster">
+				<div class="director"><span class="people_lead">Director</span> <span class="people"><%= @movie.director %></span></div>
+				<div class="cast"><span class="people_lead">Cast</span> <span class="people"><%= @movie.cast %></span></div>
+			</div>
+		</div>
+		<div class="movie_info_container">
+			<div class="film_title"><%= @movie.title%></div>
+			<div class="under_title">
+				<span class="year_release"><%= @movie.year%></span>
+				<span class="mpaa"><%= @movie.mpaa %></span>
+				<span class="runtime"><%= @movie.runtime %> min</span>
+			</div>
+			<div class="synopsis"><%= @movie.synopsis %></div>
+		</div>
+	</div>
+</div>
+
+<div class="bottom_wrap">
+	<div class="center_col">
+		<div class="left_col">
+				<div class="critic_tomato"></div>
+				<div class="rating_holder">
+					<div class="big_number"><%= @movie.critic_rating %><span class="small">%</span></div>
+					<div class="below_rating"><%= @movie.review_count %> critic ratings</div>
+				</div>
+		</div>
+
+		<div class="review_wrap">
+			<div class="reviews_container">
+				<div class="critic_header">
+					<h2>Critics</h2>
+					<span class="critic_consensus"><%= @movie.critic_consensus %></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="right_col">
+			<div class="<%= @audience_class %>"></div>
+			<div class="rating_holder">
+				<div class="big_number"><%= @movie.audience_rating %><span class="small">%</span></div>
+				<div class="below_rating">audience ratings</div>
+			</div>
+		</div>
+	</div>
+</div>
