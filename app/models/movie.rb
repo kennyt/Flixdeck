@@ -54,14 +54,19 @@ class Movie < ActiveRecord::Base
 
 	def self.get_synopsis(response)
 		if response.css('span#movieSynopsisRemaining').length == 0
-			synopsis = response.css('p#movieSynopsis.movie_synopsis').text.strip
+			synopsis = iconvnize(response.css('p#movieSynopsis.movie_synopsis').text.strip)
 		else
-			first_synopsis = response.css('p#movieSynopsis.movie_synopsis').text.split('$(')[0]
-			second_synopsis = response.css('span#movieSynopsisRemaining').text
+			first_synopsis = iconvnize(response.css('p#movieSynopsis.movie_synopsis').text).split('$(')[0]
+			second_synopsis = iconvnize(response.css('span#movieSynopsisRemaining').text)
 			synopsis = first_synopsis.gsub(second_synopsis,'').strip + ' ' + second_synopsis.strip
 		end
+
+		synopsis
+	end
+
+	def self.iconvnize(text)
 		ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
-		ic.iconv(synopsis << ' ')[0..-2]
+		ic.iconv(text << ' ')[0..-2]
 	end
 
 	def self.get_cookie
