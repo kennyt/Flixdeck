@@ -42,6 +42,7 @@ class Movie < ActiveRecord::Base
 
 	def self.scrape_individual(movie)
 		movie_id = movie.rotten_tomatoes_id
+		movie_id = "enron_the_smartest_guys_in_the_room/" if movie_id == 24
 		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
 		synopsis = get_synopsis(response)
 		critic_consensus = response.css('p.critic_consensus').length == 0 ? 'No consensus.' : response.css('p.critic_consensus')[0].text
