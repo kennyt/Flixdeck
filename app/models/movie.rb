@@ -41,7 +41,7 @@ class Movie < ActiveRecord::Base
 
 	def self.scrape_individual(movie)
 		movie_id = movie.rotten_tomatoes_id
-		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/the_den/"))
+		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
 		synopsis = get_synopsis(response)
 		critic_consensus = response.css('p.critic_consensus')[0].text
 		num_of_reviews = response.css('p.critic_stats span').select{|stat| stat["itemprop"] == "reviewCount"}[0].text
