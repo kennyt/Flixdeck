@@ -44,13 +44,17 @@ class Movie < ActiveRecord::Base
 		movie_id = movie.rotten_tomatoes_id
 		movie_id = "enron_the_smartest_guys_in_the_room/" if movie_id == 24
 		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
+		poster = response.css('img.pinterestImage')[0].nil? ? nil : response.css('img.pinterestImage')[0]['src']
+
+		movie.update_attributes(:poster => poster)
+		sleep(0.17)
+	end
+
+	def self.get_synopsis_consensus_reviews
 		synopsis = get_synopsis(response)
 		critic_consensus = response.css('p.critic_consensus').length == 0 ? 'No consensus.' : response.css('p.critic_consensus')[0].text
 		num_of_reviews = response.css('p.critic_stats span').select{|stat| stat["itemprop"] == "reviewCount"}[0]
 		num_of_reviews = num_of_reviews.text.to_i unless num_of_reviews.nil?
-
-		movie.update_attributes(:review_count => num_of_reviews, :critic_consensus => critic_consensus, :synopsis => synopsis)
-		sleep(0.17)
 	end
 
 	def self.get_synopsis(response)
