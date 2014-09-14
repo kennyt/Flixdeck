@@ -47,7 +47,7 @@ class Movie < ActiveRecord::Base
 		poster = response.css('img.pinterestImage')[0].nil? ? nil : response.css('img.pinterestImage')[0]['src']
 
 		movie.update_attributes(:poster => poster)
-		sleep(0.17)
+		sleep(0.3)
 	end
 
 	def self.get_synopsis_consensus_reviews
