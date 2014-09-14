@@ -63,6 +63,7 @@ class Movie < ActiveRecord::Base
 	def self.fill_info_from_RT_api
 		Movie.all.each do |movie|
 			give_attribute_full(movie)
+			sleep(1.1)
 		end
 	end
 
