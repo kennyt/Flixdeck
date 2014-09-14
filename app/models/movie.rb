@@ -60,12 +60,9 @@ class Movie < ActiveRecord::Base
 	end
 
 	def self.fill_info_from_RT_api
-		# response = Net::HTTP.get_response("api.rottentomatoes.com","/api/public/v1.0/movies/770672122.json?apikey=#{apikey}")
-		movie = Movie.find_by_rotten_tomatoes_id(10036)
-		give_attribute_full(movie)
-		# Movie.all.each do |movie|
-
-		# end
+		Movie.all.each do |movie|
+			give_attribute_full(movie)
+		end
 	end
 
 	def self.give_attribute_full(movie)
@@ -94,11 +91,11 @@ class Movie < ActiveRecord::Base
   			movie.synopsis = value
   		when "posters"
   			movie.poster = value["detailed"]
-  		when "abriged_cast"
+  		when "abridged_cast"
   			names = value.map {|actor| actor['name'] }
   			cast = names.join(', ')
   			movie.cast = cast
-  		when "abriged_directors"
+  		when "abridged_directors"
   			names = value.map {|director| director['name'] }
   			director = names.join(', ')
   			movie.director = director
