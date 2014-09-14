@@ -10,7 +10,7 @@ class Movie < ActiveRecord::Base
 	  	data = get_data(cookie, page)
 		  data.each do |key, value|
 		  	if movie_list?(key)
-		  		value.each{|movie| create_new_movie(movie)}
+		  		value.each{|movie| add_netflixsource(movie)}
 		  	end
 		  end
 
@@ -25,6 +25,11 @@ class Movie < ActiveRecord::Base
 			give_attribute(key, value, current_movie)
 		end
 		current_movie.save!
+	end
+
+	def self.add_netflixsource(movie)
+		old_movie = Movie.find_by_rotten_tomatoes_id(movie["id"])
+		old_movie.netflixsource = movie["netflixsource"].split('/movies/')[1]
 	end
 
 	def self.get_cookie
@@ -49,6 +54,57 @@ class Movie < ActiveRecord::Base
 			movie.rotten_tomatoes_id = value
 		when "title"
 			movie.title = value
+		when "netflixsource"
+			movie.netflixsource = value.split('/movies/')[1]
 		end
+	end
+
+	def self.fill_info_from_RT_api
+		# response = Net::HTTP.get_response("api.rottentomatoes.com","/api/public/v1.0/movies/770672122.json?apikey=#{apikey}")
+		movie = Movie.find_by_rotten_tomatoes_id(10036)
+		give_attribute_full(movie)
+		# Movie.all.each do |movie|
+
+		# end
+	end
+
+	def self.give_attribute_full(movie)
+		apikey = "5r8xr8cqaw9y3a2dhhtz2q7f"
+		movie_id = movie.rotten_tomatoes_id
+		response = open("http://api.rottentomatoes.com/api/public/v1.0/movies/#{movie_id}.json?apikey=#{apikey}").read
+  	attributes = JSON.parse(response)
+
+  	attributes.each do |key, value|
+  		case key
+  		when "year"
+  			movie.year = value
+  		when "genres"
+  			value = value.join(',')
+  			movie.genres = value
+  		when "mpaa_rating"
+  			movie.mpaa = value
+  		when "runtime"
+  			movie.runtime = value
+  		when "ratings"
+  			critics = value["critics_score"]
+  			audience = value["audience_score"]
+  			movie.critic_rating = critics
+  			movie.audience_rating = audience
+  		when "synopsis"
+  			movie.synopsis = value
+  		when "posters"
+  			movie.poster = value["detailed"]
+  		when "abriged_cast"
+  			names = value.map {|actor| actor['name'] }
+  			cast = names.join(', ')
+  			movie.cast = cast
+  		when "abriged_directors"
+  			names = value.map {|director| director['name'] }
+  			director = names.join(', ')
+  			movie.director = director
+  		end
+  	end
+
+  	movie.save!
 	end
 end
