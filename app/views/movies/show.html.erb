@@ -1,6 +1,10 @@
 <% @movies.each do |movie| %>
 	<div><%= movie.title%></div>
 	<div><%= movie.year%></div>
-	<div><%= movie.rotten_tomatoes_id%></div>
+	<div><%= movie.synopsis %></div>
+	<div>critic: <%= movie.critic_rating %></div>
+	<div>audience: <%= movie.audience_rating %></div>
+	<div>cast: <%= movie.cast %></div>
+	<div>director: <%= movie.director %></div>
 	<br><br><br>
 <% end %>
