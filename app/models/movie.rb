@@ -41,7 +41,7 @@ class Movie < ActiveRecord::Base
 
 	def self.scrape_individual(movie)
 		movie_id = movie.rotten_tomatoes_id
-		response = Nokogiri::HTML(open('http://www.rottentomatoes.com/m/#{movie_id}'))
+		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
 		first_synopsis = response.css('p#movieSynopsis.movie_synopsis').text.split('$(')[0]
 		second_synopsis = response.css('span#movieSynopsisRemaining').text
 		synopsis = first_synopsis.gsub(second_synopsis,'').strip + ' ' + second_synopsis.strip
