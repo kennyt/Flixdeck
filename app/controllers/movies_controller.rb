@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
 		until pass_filter?(@movie)
 			# rand_id = rand(Movie.count)
  		# 	@movie = Movie.first(:conditions => [ "id >= ?", rand_id])
- 			@movie = Movie.where('critic_rating > 59').order("RANDOM()").limit(1)
+ 			@movie = Movie.where('critic_rating > 59').order("RANDOM()").limit(1)[0]
  			# movies.each do |movie|
  			# 	if pass_filter?(movie)
  			# 		@movie = movie
