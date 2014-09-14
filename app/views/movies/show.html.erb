@@ -11,8 +11,23 @@
 			</div>
 		</div>
 		<div class="movie_info_container">
+			<a class="rating_container" href="<%= @rt_link %>">
+				<div class="critic_section">
+					<div class="rating_holder critic_tomato">
+						<div class="big_number"><%= @movie.critic_rating %><span class="small">%</span></div>
+						<div class="below_rating"><%= @movie.review_count %> critic reviews</div>
+					</div>
+				</div>
+				<div class="audience_section">
+					<div class="rating_holder <%= @audience_class %>">
+						<div class="big_number"><%= @movie.audience_rating %><span class="small">%</span></div>
+						<div class="below_rating">audience score</div>
+					</div>
+				</div>
+			</a>
 			<div class="film_title"><%= @movie.title%></div>
 			<div class="under_title">
+
 				<span class="year_release"><%= @movie.year%></span>
 				<span class="mpaa"><%= @movie.mpaa %></span>
 				<span class="runtime"><%= @movie.runtime %> min</span>
@@ -25,11 +40,7 @@
 <div class="bottom_wrap">
 	<div class="center_col">
 		<div class="left_col">
-				<div class="critic_tomato"></div>
-				<div class="rating_holder">
-					<div class="big_number"><%= @movie.critic_rating %><span class="small">%</span></div>
-					<div class="below_rating"><%= @movie.review_count %> critic ratings</div>
-				</div>
+			<div class="big_tomato"></div>
 		</div>
 
 		<div class="review_wrap">
@@ -42,11 +53,6 @@
 		</div>
 
 		<div class="right_col">
-			<div class="<%= @audience_class %>"></div>
-			<div class="rating_holder">
-				<div class="big_number"><%= @movie.audience_rating %><span class="small">%</span></div>
-				<div class="below_rating">audience ratings</div>
-			</div>
 		</div>
 	</div>
 </div>
