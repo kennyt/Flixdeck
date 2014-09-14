@@ -3,6 +3,6 @@ class MoviesController < ApplicationController
 	# require 'json'
 
 	def show
-		@movies = Movie.limit(30)
+		@movies = Movie.first(500)
 	end
 end

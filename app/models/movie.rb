@@ -34,7 +34,7 @@ class Movie < ActiveRecord::Base
 		old_movie.save!
 	end
 
-	def self.scrape_all_movies
+	def self.scrape_all_movies()
 		Movie.find_each do |movie|
 			scrape_individual(movie)
 		end
@@ -44,9 +44,8 @@ class Movie < ActiveRecord::Base
 		movie_id = movie.rotten_tomatoes_id
 		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
 		synopsis = get_synopsis(response)
-		critic_consensus = response.css('p.critic_consensus')[0].text
-		num_of_reviews = response.css('p.critic_stats span').select{|stat| stat["itemprop"] == "reviewCount"}[0].text
-		num_of_reviews = num_of_reviews.to_i
+		critic_consensus = response.css('p.critic_consensus').length == 0 ? 'No consensus.' : response.css('p.critic_consensus')[0].text
+		num_of_reviews = response.css('p.critic_stats span').length == 0 ? nil : response.css('p.critic_stats span').select{|stat| stat["itemprop"] == "reviewCount"}[0].text.to_i
 
 		movie.update_attributes(:review_count => num_of_reviews, :critic_consensus => critic_consensus, :synopsis => synopsis)
 		sleep(0.17)
