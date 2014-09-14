@@ -35,7 +35,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def self.scrape_all_movies()
-		Movie.find_each do |movie|
+		Movie.find_each(:start => 1510) do |movie|
 			scrape_individual(movie)
 		end
 	end

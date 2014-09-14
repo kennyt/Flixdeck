@@ -3,6 +3,6 @@ class MoviesController < ApplicationController
 	# require 'json'
 
 	def show
-		@movies = Movie.first(500)
+		@movies = Movie.order('id').first(500)
 	end
 end
