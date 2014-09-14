@@ -30,6 +30,7 @@ class Movie < ActiveRecord::Base
 	def self.add_netflixsource(movie)
 		old_movie = Movie.find_by_rotten_tomatoes_id(movie["id"])
 		old_movie.netflixsource = movie["netflixsource"].split('/movies/')[1]
+		old_movie.save!
 	end
 
 	def self.get_cookie
