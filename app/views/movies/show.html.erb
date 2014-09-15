@@ -40,20 +40,43 @@
 
 <div class="bottom_wrap">
 	<div class="center_col">
-		<div class="left_col">
-			<div class="big_tomato"></div>
-		</div>
-
-		<div class="review_wrap">
-			<div class="reviews_container">
-				<div class="critic_header">
-					<h2 class="consensus_header">Consensus</h2>
-					<span class="critic_consensus">"<%= @movie.critic_consensus %>"</span>
+			<div class="center_col" style="float:left">
+				<div class="left_col">
+					<div class="big_tomato"></div>
+				</div>
+				<div class="review_wrap">
+					<div class="reviews_container">
+						<div class="critic_header">
+							<h2 class="consensus_header">Consensus</h2>
+							<span class="critic_consensus">"<%= @movie.critic_consensus %>"</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+	<div class="individual_reviews">
+		<% @reviews.each do |review_hash| %>
+			<% next if review_hash["quote"].length == 0 %>
+			<div class="center_col">
+				<div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #B8B8B8;">
+					<div class="left_col">
+						<% if review_hash["freshness"] == "fresh" %>
+							<div class="medium_tomato"></div>
+						<% else %>
+							<div class="medium_rotten"></div>
+						<% end %>
 
-		<div class="right_col">
-		</div>
+						<div class="reviewer_name"><%= review_hash["critic"] %></div>
+						<div class="reviewer_publication"><%= review_hash["publication"] %></div>
+						<div class="review_date"><%= review_hash["date"] %></div>
+					</div>
+					<div class="review_wrap">
+						<div class="reviews_container">
+							<div class="review_quote">"<%= review_hash["quote"] %>"</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% end %>
 	</div>
 </div>

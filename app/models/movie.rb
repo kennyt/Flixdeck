@@ -2,6 +2,8 @@ class Movie < ActiveRecord::Base
   attr_accessible :rotten_tomatoes_id, :title, :year, :runtime, :critic_rating, :audience_rating,  :critic_consensus,  :synopsis,  :mpaa,  :netflixsource,  :poster,  :cast,  :director,  :genres, :review_count
 	require 'open-uri'
 	require 'iconv'
+	require 'cgi'
+
   def self.generate_database
 		page = 1
 		total_movies = 2820
@@ -146,6 +148,30 @@ class Movie < ActiveRecord::Base
   	end
 
   	movie.save!
+	end
+
+	def self.get_reviews_hash(movie)
+		movie_id = movie.rotten_tomatoes_id
+		data = open("http://api.rottentomatoes.com/api/public/v1.0/movies/#{movie_id}/reviews.json?apikey=5r8xr8cqaw9y3a2dhhtz2q7f&page_limit=50&review_type=all")
+		json = data.read
+		reviews = []
+		
+  	JSON.parse(json)["reviews"].each do |review|
+  		reviews << review if review["quote"].length > 0
+  		break if reviews.length >= 10
+  	end
+
+  	reviews
+	end
+
+	def unescape_html
+		self.update_attribute(:title, CGI.unescapeHTML(title))
+	end
+
+	def self.unescape_all
+		Movie.find_each do |movie|
+			movie.unescape_html
+		end
 	end
 
 	def self.fill_out_dummies

@@ -124,6 +124,7 @@ body {
 	font-family: helvetica, sans-serif;
 	font-size: 16px;
 	letter-spacing: -0.5px;
+	position: relative;
 }
 
 .right_col {
@@ -315,6 +316,41 @@ body {
 	opacity: .9;
 }
 
+.medium_tomato {
+	width: 60px;
+	height: 50px;
+	background-image: url('fresh_tomato.png');
+	background-size: 40px 40px;
+	background-position: 10px 0px;
+	background-repeat: no-repeat;
+	opacity: .9;
+	float: right;
+}
+
+.medium_rotten {
+	width: 60px;
+	height: 50px;
+	background-image: url('rotten_tomato.png');
+	background-size: 40px 40px;
+	background-position: 10px 0px;
+	background-repeat: no-repeat;
+	opacity: .9;
+	float: right;
+}
+
 .consensus_header {
 	color: #404040;
+}
+
+.reviewer_name {
+	font-weight: bold;
+}
+
+.reviewer_publication {
+	font-style: italic;
+}
+
+.review_quote {
+	font-family: helvetica, sans-serif;
+	font-size: 17px;
 }
