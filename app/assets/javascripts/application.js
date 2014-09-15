@@ -34,19 +34,19 @@ function showReview(review, currentParallel, i){
 		imageClass = "medium_rotten review_image"
 	}
 
-	if (currentParallel != undefined){
-		currentParallel.animate({ opacity: 0}, 150)
+	if (currentParallel.length != 0){
+		currentParallel.animate({ opacity: 0}, 250)
 	}
 
 	setTimeout(function(){
-		if (currentParallel != undefined){
+		if (currentParallel.length != 0){
 			currentParallel.replaceWith('<div class="center_col one_review_wrapper" id="movie'+i+'" style="opacity:0;"><div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #D8D8D8;"><div class="left_col"><div class="'+imageClass+'"></div><div class="reviewer_name">'+review["critic"]+'</div><div class="reviewer_publication">'+review["publication"]+'</div><div class="review_date">'+review["date"]+'</div></div><div class="review_wrap"><div class="reviews_container"><div class="review_quote">"'+review["quote"]+'"</div></div></div></div></div>')
 		} else {
 			$('.individual_reviews').append('<div class="center_col one_review_wrapper" id="movie'+i+'" style="opacity:0;"><div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #D8D8D8;"><div class="left_col"><div class="'+imageClass+'"></div><div class="reviewer_name">'+review["critic"]+'</div><div class="reviewer_publication">'+review["publication"]+'</div><div class="review_date">'+review["date"]+'</div></div><div class="review_wrap"><div class="reviews_container"><div class="review_quote">"'+review["quote"]+'"</div></div></div></div></div>')
 		}
 
-		$('#movie'+i).animate({ opacity: 1}, 150).attr('id','');
-	}, 150)
+		$('#movie'+i).animate({ opacity: 1}, 250).attr('id','');
+	}, 250)
 }
 
 function removeExtraReviews(newLength){
@@ -70,7 +70,11 @@ function showReviews(reviews){
 
 function showMovie(movie){
 	delayTransitionAttr($('.poster'), 'src', movie["poster"], 0)
-	delayTransitionHtml($('#critic_score'), movie["critic_rating"] + '<span class="small">%</span>', 50)
+	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20)
+	delayTransitionHtml($('#directors'), movie["director"], 40)
+	delayTransitionHtml($('#cast'), movie["cast"], 60)
+	delayTransitionHtml($('#critic_score'), movie["critic_rating"] + '<span class="small">%</span>', 60)
+	delayTransitionHtml($('.critic_tomato'), false, 50)
 	delayTransitionHtml($('#review_count'), movie["review_count"] + ' critic reviews', 50)
 	delayTransitionHtml($('#audience_score'), movie["audience_rating"] + '<span class="small">%</span>', 100)
 	delayTransitionAttr($('#popcorn_bucket'), 'class', "rating_holder " + movie["audience_class"], 100)
@@ -78,17 +82,16 @@ function showMovie(movie){
 	delayTransitionHtml($('.year_release'), movie['year'], 200)
 	delayTransitionHtml($('.runtime'), movie["runtime"] + 'min', 250)
 	delayTransitionHtml($('.mpaa'), movie["mpaa"], 300)
-	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 350)
-	delayTransitionHtml($('#directors'), movie["director"], 400)
-	delayTransitionHtml($('#cast'), movie["cast"], 450)
-	delayTransitionHtml($('.synopsis'), movie["synopsis"], 500, function(){
+	delayTransitionHtml($('.synopsis'), movie["synopsis"], 350, function(){
 		checkIfOpenBarNeeded($('.synopsis'))
 	})
-	delayTransitionHtml($('.critic_consensus'), movie["critic_consensus"], 650)
+	delayTransitionHtml($('.consensus_header'), false, 460)
+	delayTransitionHtml($('.critic_consensus'), movie["critic_consensus"], 500)
+	delayTransitionHtml($('.big_tomato'), false, 500)
 
 	setTimeout(function(){
 		showReviews(movie["reviews"])
-	}, 650)
+	}, 470)
 
 	$('.netflix_play').attr('href', "http://www.netflix.com/WiPlayer?movieid=" + movie["netflixsource"])
 	$('#rt_link').attr('href', "http://www.rottentomatoes.com/m/" + movie["rotten_tomatoes_id"])
@@ -97,14 +100,16 @@ function showMovie(movie){
 
 function delayTransitionHtml(ele, newHtml, delay, callback){
 	setTimeout(function(){
-		ele.animate({ opacity: 0}, 300)
-		setTimeout(function(){
-			ele.html(newHtml)
-			ele.animate({ opacity: 1}, 300)
-			if (callback){
-				callback();
-			}
-		}, 300)
+			ele.animate({ opacity: 0}, 300)
+			setTimeout(function(){
+				if (newHtml){
+					ele.html(newHtml)
+				}
+				ele.animate({ opacity: 1}, 300)
+				if (callback){
+					callback();
+				}
+			}, 300)
 	}, delay)
 }
 

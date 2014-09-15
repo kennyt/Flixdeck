@@ -17,7 +17,8 @@ class ApplicationController < ActionController::Base
       :reviews => Movie.get_reviews_hash(movie),
       :audience_class => movie.audience_rating > 60 ? "fresh_popcorn" : "spilled_popcorn",
       :netflixsource => movie.netflixsource,
-      :rotten_tomatoes_id => movie.rotten_tomatoes_id
+      :rotten_tomatoes_id => movie.rotten_tomatoes_id,
+      :poster => movie.poster
     }
   end
 end
