@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="movie_info_container">
-			<a class="rating_container" href="<%= @rt_link %>" title="Go to the movie's Rotten Tomoatoes page.">
+			<a class="rating_container" id="rt_link" href="<%= @rt_link %>" title="Go to the movie's Rotten Tomoatoes page.">
 				<div class="critic_section">
 					<div class="rating_holder critic_tomato">
 						<div class="big_number" id="critic_score"><%= @movie.critic_rating %><span class="small">%</span></div>
@@ -20,7 +20,7 @@
 					</div>
 				</div>
 				<div class="audience_section">
-					<div class="rating_holder <%= @audience_class %>">
+					<div class="rating_holder <%= @audience_class %>" id="popcorn_bucket">
 						<div class="big_number" id="audience_score"><%= @movie.audience_rating %><span class="small">%</span></div>
 						<div class="below_rating" id="audience_label">audience score</div>
 					</div>
@@ -57,13 +57,13 @@
 	<div class="individual_reviews">
 		<% @reviews.each do |review_hash| %>
 			<% next if review_hash["quote"].length == 0 %>
-			<div class="center_col">
+			<div class="center_col one_review_wrapper">
 				<div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #D8D8D8;">
 					<div class="left_col">
 						<% if review_hash["freshness"] == "fresh" %>
-							<div class="medium_tomato"></div>
+							<div class="medium_tomato review_image"></div>
 						<% else %>
-							<div class="medium_rotten"></div>
+							<div class="medium_rotten review_image"></div>
 						<% end %>
 
 						<div class="reviewer_name"><%= review_hash["critic"] %></div>
@@ -81,4 +81,4 @@
 	</div>
 </div>
 
-<div class="redraw"></div>
+<div class="redraw" data-rotate="360"></div>

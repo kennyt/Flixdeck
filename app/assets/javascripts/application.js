@@ -26,21 +26,96 @@ function checkIfOpenBarNeeded(synopsis){
 	}
 }
 
-function showMovie(movie){
-	$('.film_title').html(movie['title'])
-	$('.year_release').html(movie['year'])
-	$('.runtime').html(movie["runtime"] + 'min')
-	$('.mpaa').html(movie["mpaa"])
-	$('#critic_score').html(movie["critic_rating"] + '<span class="small">%</span>')
-	$('#audience_score').html(movie["audience_rating"] + '<span class="small">%</span>')
-	$('#review_count').html(movie["review_count"] + ' critic reviews')
-	$('.synopsis').html(movie["synopsis"])
-	$('.critic_consensus').html(movie["critic_consensus"])
-	$('#genres').html(movie["genres"])
-	$('#cast').html(movie["cast"])
-	$('#directors').html(movie["director"])
+function showReview(review, currentParallel, i){
+	var imageClass = 'noclass';
+	if (review["freshness"] == "fresh"){
+		imageClass = "medium_tomato review_image"
+	} else {
+		imageClass = "medium_rotten review_image"
+	}
 
+	if (currentParallel != undefined){
+		currentParallel.animate({ opacity: 0}, 150)
+	}
+
+	setTimeout(function(){
+		if (currentParallel != undefined){
+			currentParallel.replaceWith('<div class="center_col one_review_wrapper" id="movie'+i+'" style="opacity:0;"><div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #D8D8D8;"><div class="left_col"><div class="'+imageClass+'"></div><div class="reviewer_name">'+review["critic"]+'</div><div class="reviewer_publication">'+review["publication"]+'</div><div class="review_date">'+review["date"]+'</div></div><div class="review_wrap"><div class="reviews_container"><div class="review_quote">"'+review["quote"]+'"</div></div></div></div></div>')
+		} else {
+			$('.individual_reviews').append('<div class="center_col one_review_wrapper" id="movie'+i+'" style="opacity:0;"><div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #D8D8D8;"><div class="left_col"><div class="'+imageClass+'"></div><div class="reviewer_name">'+review["critic"]+'</div><div class="reviewer_publication">'+review["publication"]+'</div><div class="review_date">'+review["date"]+'</div></div><div class="review_wrap"><div class="reviews_container"><div class="review_quote">"'+review["quote"]+'"</div></div></div></div></div>')
+		}
+
+		$('#movie'+i).animate({ opacity: 1}, 150).attr('id','');
+	}, 150)
+}
+
+function removeExtraReviews(newLength){
+	var curLength = $('.one_review_wrapper').length
+
+	if (curLength > newLength){
+		$('.one_review_wrapper').slice(newLength, curLength).remove()
+	}
+}
+
+function showReviews(reviews){
+	$.each(reviews, function(i, review){
+		var currentParallel = $($('.one_review_wrapper')[i])
+		setTimeout(function(){
+			showReview(review, currentParallel, i)
+		}, i * 50)
+	})
+
+	removeExtraReviews(reviews.length)
+}
+
+function showMovie(movie){
+	delayTransitionAttr($('.poster'), 'src', movie["poster"], 0)
+	delayTransitionHtml($('#critic_score'), movie["critic_rating"] + '<span class="small">%</span>', 50)
+	delayTransitionHtml($('#review_count'), movie["review_count"] + ' critic reviews', 50)
+	delayTransitionHtml($('#audience_score'), movie["audience_rating"] + '<span class="small">%</span>', 100)
+	delayTransitionAttr($('#popcorn_bucket'), 'class', "rating_holder " + movie["audience_class"], 100)
+	delayTransitionHtml($('.film_title'), movie['title'], 150)
+	delayTransitionHtml($('.year_release'), movie['year'], 200)
+	delayTransitionHtml($('.runtime'), movie["runtime"] + 'min', 250)
+	delayTransitionHtml($('.mpaa'), movie["mpaa"], 300)
+	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 350)
+	delayTransitionHtml($('#directors'), movie["director"], 400)
+	delayTransitionHtml($('#cast'), movie["cast"], 450)
+	delayTransitionHtml($('.synopsis'), movie["synopsis"], 500, function(){
+		checkIfOpenBarNeeded($('.synopsis'))
+	})
+	delayTransitionHtml($('.critic_consensus'), movie["critic_consensus"], 650)
+
+	setTimeout(function(){
+		showReviews(movie["reviews"])
+	}, 650)
+
+	$('.netflix_play').attr('href', "http://www.netflix.com/WiPlayer?movieid=" + movie["netflixsource"])
+	$('#rt_link').attr('href', "http://www.rottentomatoes.com/m/" + movie["rotten_tomatoes_id"])
 	$('.synopsis').attr('style','')
+}
+
+function delayTransitionHtml(ele, newHtml, delay, callback){
+	setTimeout(function(){
+		ele.animate({ opacity: 0}, 300)
+		setTimeout(function(){
+			ele.html(newHtml)
+			ele.animate({ opacity: 1}, 300)
+			if (callback){
+				callback();
+			}
+		}, 300)
+	}, delay)
+}
+
+function delayTransitionAttr(ele, attr, attrValue, delay){
+	setTimeout(function(){
+		ele.animate({ opacity: 0}, 300)
+		setTimeout(function(){
+			ele.attr(attr, attrValue)
+		}, 300)
+		ele.animate({ opacity: 1}, 300)
+	}, delay)
 }
 
 $(document).ready(function(){
@@ -63,8 +138,10 @@ $(document).ready(function(){
 	$('body').on('click', '.redraw', function(ev){
 		$.post('/movie.json', function(response){
 			showMovie(response);
-			checkIfOpenBarNeeded($('.synopsis'))
 		})
+		var rotation = $(this).attr('data-rotate')
+		$(this).css({'-ms-transform': 'rotate('+rotation+'deg)', '-webkit-transform': 'rotate('+rotation+'deg)', 'transform': 'rotate('+rotation+'deg)'})
+		$(this).attr('data-rotate', parseInt(rotation) + 360);
 	})
 
 	checkIfOpenBarNeeded($('.synopsis'));
