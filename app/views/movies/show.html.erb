@@ -6,23 +6,23 @@
 				<a class="play_netflix" href="http://www.netflix.com/WiPlayer?movieid=<%= @movie.netflixsource %>"><div class="play_button"></div></a>
 			</div>
 			<div class="under_poster">
-				<div class="genres"><span class="people_lead">Genre</span> <span class="people"><%= @genres %></span></div>
-				<div class="director"><span class="people_lead">Director</span> <span class="people"><%= @movie.director %></span></div>
-				<div class="cast"><span class="people_lead">Cast</span> <span class="people"><%= @movie.cast %></span></div>
+				<div class="genres"><span class="people_lead">Genre</span> <span class="people" id="genres"><%= @genres %></span></div>
+				<div class="director"><span class="people_lead">Director</span> <span class="people" id="directors"><%= @movie.director %></span></div>
+				<div class="cast"><span class="people_lead">Cast</span> <span class="people" id="cast"><%= @movie.cast %></span></div>
 			</div>
 		</div>
 		<div class="movie_info_container">
 			<a class="rating_container" href="<%= @rt_link %>" title="Go to the movie's Rotten Tomoatoes page.">
 				<div class="critic_section">
 					<div class="rating_holder critic_tomato">
-						<div class="big_number"><%= @movie.critic_rating %><span class="small">%</span></div>
-						<div class="below_rating"><%= @movie.review_count %> critic reviews</div>
+						<div class="big_number" id="critic_score"><%= @movie.critic_rating %><span class="small">%</span></div>
+						<div class="below_rating" id="review_count"><%= @movie.review_count %> critic reviews</div>
 					</div>
 				</div>
 				<div class="audience_section">
 					<div class="rating_holder <%= @audience_class %>">
-						<div class="big_number"><%= @movie.audience_rating %><span class="small">%</span></div>
-						<div class="below_rating">audience score</div>
+						<div class="big_number" id="audience_score"><%= @movie.audience_rating %><span class="small">%</span></div>
+						<div class="below_rating" id="audience_label">audience score</div>
 					</div>
 				</div>
 			</a>
@@ -30,7 +30,7 @@
 			<div class="under_title">
 
 				<span class="year_release"><%= @movie.year%></span>
-				<span class="runtime"><%= @movie.runtime %> min</span>
+				<span class="runtime"><%= @movie.runtime %>min</span>
 				<span class="mpaa"><%= @movie.mpaa %></span>
 			</div>
 			<div class="synopsis"><%= @movie.synopsis %></div>
@@ -58,7 +58,7 @@
 		<% @reviews.each do |review_hash| %>
 			<% next if review_hash["quote"].length == 0 %>
 			<div class="center_col">
-				<div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #B8B8B8;">
+				<div class="center_col" style="float:left; margin-top:50px;padding-top: 50px;border-top:1px solid #D8D8D8;">
 					<div class="left_col">
 						<% if review_hash["freshness"] == "fresh" %>
 							<div class="medium_tomato"></div>
@@ -80,3 +80,5 @@
 		<% end %>
 	</div>
 </div>
+
+<div class="redraw"></div>

@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require_tree .
 
+
 function checkIfOpenBarNeeded(synopsis){
 	var height = synopsis.height()
 	var autoHeight = synopsis.css('height','auto').height();
@@ -25,21 +26,45 @@ function checkIfOpenBarNeeded(synopsis){
 	}
 }
 
+function showMovie(movie){
+	$('.film_title').html(movie['title'])
+	$('.year_release').html(movie['year'])
+	$('.runtime').html(movie["runtime"] + 'min')
+	$('.mpaa').html(movie["mpaa"])
+	$('#critic_score').html(movie["critic_rating"] + '<span class="small">%</span>')
+	$('#audience_score').html(movie["audience_rating"] + '<span class="small">%</span>')
+	$('#review_count').html(movie["review_count"] + ' critic reviews')
+	$('.synopsis').html(movie["synopsis"])
+	$('.critic_consensus').html(movie["critic_consensus"])
+	$('#genres').html(movie["genres"])
+	$('#cast').html(movie["cast"])
+	$('#directors').html(movie["director"])
+
+	$('.synopsis').attr('style','')
+}
+
 $(document).ready(function(){
-	$('body').on('click', '.synopsis', function(ev){
-		if ($(this).hasClass('unopened')){
-			var that = this;
-			var height = $(this).height()
-			var autoHeight = $(this).css('height','auto').height();
+	$('body').on('click', '.open_bar', function(ev){
+		var synopsis = $('.synopsis')
+		if (synopsis.hasClass('unopened')){
+			var height = $(synopsis).height()
+			var autoHeight = $(synopsis).css('height','auto').height();
 			var animationTime = 400
 
-			$(that).removeClass('unopened')
-			$(this).height(height).animate({height: autoHeight}, animationTime);
+			$(synopsis).removeClass('unopened')
+			$(synopsis).height(height).animate({height: autoHeight}, animationTime);
 			$('.open_bar').fadeOut(animationTime)
 			setTimeout(function(){
 				$('.open_bar').remove()
 			},animationTime)
 		}
+	})
+
+	$('body').on('click', '.redraw', function(ev){
+		$.post('/movie.json', function(response){
+			showMovie(response);
+			checkIfOpenBarNeeded($('.synopsis'))
+		})
 	})
 
 	checkIfOpenBarNeeded($('.synopsis'));

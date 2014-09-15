@@ -155,7 +155,7 @@ class Movie < ActiveRecord::Base
 		data = open("http://api.rottentomatoes.com/api/public/v1.0/movies/#{movie_id}/reviews.json?apikey=5r8xr8cqaw9y3a2dhhtz2q7f&page_limit=50&review_type=all")
 		json = data.read
 		reviews = []
-		
+
   	JSON.parse(json)["reviews"].each do |review|
   		reviews << review if review["quote"].length > 0
   		break if reviews.length >= 10
@@ -178,5 +178,9 @@ class Movie < ActiveRecord::Base
 		Movie.find_each do |movie|
 			movie.update_attributes(:runtime => 135, :critic_rating => 83, :audience_rating => 91, :critic_consensus => "A subversive and deft film. Will please moviegoers who are looking for art with their action. Also with flawless acting from Michael Bay, Tarantino, and De Niro.", :synopsis => "The success this underdog comedy from director Michael Ritchie almost single-handedly spawned the kids' sports film boom of the 1980s and '90s. When beer-breathed ex-minor-league ball player and professional pool cleaner Morris Buttermaker (Walter Matthau) agrees to coach a little league team in the San Fernando Valley, he soon finds he's in over his head, having inherited an assortment of pint-sized peons and talentless losers. They play well-organized teams and lose by tremendous margins, and the parents threaten to disband the Bears to save the kids (and themselves) any further embarrassment. Buttermaker refuses, though, and brings in a pair of ringers: Amanda (Tatum O'Neal), his ex-girlfriend's tomboy daughter, and Kelly (Jackie Earle Haley), a cigarette-smoking delinquent who happens to be a gifted athlete. With their help, the Bears manage to change their losing ways and qualify for the championship, where they face their arch-rivals, the Yankees. ~ Jeremy Beday, Rovi", :mpaa => "R", :netflixsource => "60021989", :poster => "http://content8.flixster.com/movie/11/17/81/11178198_det.jpg", :cast => "Michael Bay, De Niro, Quentin Tarantino, Tom Hanks", :director => "Paul Thomas Anderson", :genres => "Comedy, Action" )
 		end
+	end
+
+	def self.get_random
+ 		Movie.where(["critic_rating > ? and review_count > ?", 59, 20]).order("RANDOM()").limit(1)[0]
 	end
 end
