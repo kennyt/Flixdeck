@@ -198,4 +198,12 @@ class Movie < ActiveRecord::Base
 		end
 		genres
 	end
+
+	def self.manual_and_natural_genres
+		natural_genres = self.genre_list
+
+		self.all_genres.all? do |genre|
+			natural_genres.include?(genre)
+		end
+	end
 end
