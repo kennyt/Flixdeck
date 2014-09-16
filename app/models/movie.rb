@@ -184,6 +184,10 @@ class Movie < ActiveRecord::Base
  		Movie.where(["critic_rating > ? and review_count > ?", 59, 20]).order("RANDOM()").limit(1)[0]
 	end
 
+	def self.all_genres
+		genres = ["Drama", "Romance", "Comedy", "Mystery & Suspense", "Action & Adventure", "Documentary", "Horro", "Special Interest", "Art House & International", "Science Fiction & Fantasy", "Musical & Performing Arts", "Faith & Spirituality", "Animation", "Kids & Family", "Sports & Fitness", "Classics", "Western", "Television", "Cult Movies", "Gay & Lesbian", "Anime & Manga"]
+	end
+
 	def self.genre_list
 		genres = []
 		Movie.find_each do |movie|
