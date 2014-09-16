@@ -22,4 +22,39 @@ class ApplicationController < ActionController::Base
       :poster => movie.poster
     }
   end
+
+  def genre_num_to_genre(num)
+  	case num
+  	when "1"
+  		genre = "All"
+  	when "2"
+  		genre = "Drama"
+  	when "3"
+  		genre = "Romance"
+  	when "4"
+  		genre = "Comedy"
+  	when "5"
+  		genre = "Mystery & Suspense"
+  	when "6"
+  		genre = "Action & Adventure"
+  	when "7"
+  		genre = "Documentary"
+  	when "8"
+  		genre = "Horror"
+  	when "9"
+  		genre = "Art House & International"
+  	when "10"
+  		genre = "Science Fiction & Fantasy"
+  	when "11"
+  		genre = "Animation"
+  	when "12"
+  		genre = "Kids & Family"
+  	when "13"
+  		genre = "Classics"
+  	when "14"
+  		genre = "Cult Movies"
+  	end
+
+  	genre
+  end
 end

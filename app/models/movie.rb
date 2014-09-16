@@ -180,15 +180,20 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	def self.get_random
- 		Movie.where(["critic_rating > ? and review_count > ?", 59, 20]).order("RANDOM()").limit(1)[0]
+	def self.get_random(genre)
+		if genre
+			genre = "%#{genre}%"
+	 		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ?", 59, 20, genre]).order("RANDOM()").limit(1)[0]
+	 	else
+			Movie.where(["critic_rating > ? and review_count > ?", 59, 20]).order("RANDOM()").limit(1)[0]
+	 	end
 	end
 
 	def self.all_genres
-		genres = ["Drama", "Romance", "Comedy", "Mystery & Suspense", "Action & Adventure", "Documentary", "Horro", "Special Interest", "Art House & International", "Science Fiction & Fantasy", "Musical & Performing Arts", "Faith & Spirituality", "Animation", "Kids & Family", "Sports & Fitness", "Classics", "Western", "Television", "Cult Movies", "Gay & Lesbian", "Anime & Manga"]
+		genres = ["Drama", "Romance", "Comedy", "Mystery & Suspense", "Action & Adventure", "Documentary", "Horror", "Special Interest", "Art House & International", "Science Fiction & Fantasy", "Musical & Performing Arts", "Faith & Spirituality", "Animation", "Kids & Family", "Sports & Fitness", "Classics", "Western", "Television", "Cult Movies", "Gay & Lesbian", "Anime & Manga"]
 	end
 
-	def self.genre_list
+	def self.generate_genre_list
 		genres = []
 		Movie.find_each do |movie|
 			movie.genres.split(',').each do |genre|
@@ -200,7 +205,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def self.manual_and_natural_genres
-		natural_genres = self.genre_list
+		natural_genres = self.generate_genre_list
 
 		self.all_genres.select do |genre|
 			!natural_genres.include?(genre)

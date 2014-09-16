@@ -1,8 +1,15 @@
 class MoviesController < ApplicationController
 	def show
 		@movie = false
+		
+ 		if params[:genre].nil? || params[:genre] == "1"
+ 			genre = false
+ 		else
+ 			genre = genre_num_to_genre(params[:genre])
+ 		end
+
 		until pass_filter?(@movie)
-			@movie = Movie.get_random
+			@movie = Movie.get_random(genre)
  		end
 
  		respond_to do |format|
@@ -18,6 +25,8 @@ class MoviesController < ApplicationController
 	end
 
 	def pass_filter?(movie)
-		movie != false && movie.critic_rating > 59 && movie.review_count > 20
+		movie != false && 
+		movie.critic_rating > 59 && 
+		movie.review_count > 20
 	end
 end

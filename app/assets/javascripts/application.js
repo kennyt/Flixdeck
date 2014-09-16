@@ -142,12 +142,28 @@ $(document).ready(function(){
 	})
 
 	$('body').on('click', '.redraw', function(ev){
-		$.post('/movie.json', function(response){
+		var genre = $('.selected_genre').attr('data-genre-number')
+		var url = '/movie.json?genre=' + genre
+		$.post(url, function(response){
 			showMovie(response);
 		})
+
 		var rotation = $(this).attr('data-rotate')
 		$(this).css({'-ms-transform': 'rotate('+rotation+'deg)', '-webkit-transform': 'rotate('+rotation+'deg)', 'transform': 'rotate('+rotation+'deg)'})
 		$(this).attr('data-rotate', parseInt(rotation) + 360);
+	})
+
+	$('body').on('click', '.filter', function(ev){
+		$('.genre_container').animate({ left: 0}, 300)
+	})
+
+	$('body').on('click', '.close_genre', function(ev){
+		$('.genre_container').animate({ left: '-200'}, 300)
+	})
+
+	$('body').on('click', '.a_genre', function(ev){
+		$('.selected_genre').attr('class', 'a_genre');
+		$(this).addClass('selected_genre');
 	})
 
 	checkIfOpenBarNeeded($('.synopsis'));
