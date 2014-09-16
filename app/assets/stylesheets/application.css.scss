@@ -502,8 +502,8 @@ body {
 }
 
 .a_genre {
-	margin-bottom: 7px;
-	line-height: 0.9;
+	margin-bottom: 8px;
+	line-height: 0.79;
 	cursor: pointer;
 
 	-webkit-transition: all 120ms ease-out;
@@ -513,10 +513,10 @@ body {
   transition: all 120ms ease-out;
 
 	&:hover{
-		color: #2980b9;
+		color: #e85647;
 	}
 }
 
 .selected_genre {
-	color: #2980b9;
+	color: #e85647;
 }

@@ -124,6 +124,20 @@ function delayTransitionAttr(ele, attr, attrValue, delay){
 	}, delay)
 }
 
+function preLoadMovie(){
+	var genre = $('.selected_genre').attr('data-genre-number')
+	var url = '/movie.json?genre=' + genre
+	$.post(url, function(response){
+		movieHolder.push(response);
+	})
+}
+
+function rotate(ele){
+	var rotation = $(ele).attr('data-rotate')
+	$(ele).css({'-ms-transform': 'rotate('+rotation+'deg)', '-webkit-transform': 'rotate('+rotation+'deg)', 'transform': 'rotate('+rotation+'deg)'})
+	$(ele).attr('data-rotate', parseInt(rotation) + 360);
+}
+
 $(document).ready(function(){
 	$('body').on('click', '.open_bar', function(ev){
 		var synopsis = $('.synopsis')
@@ -142,15 +156,14 @@ $(document).ready(function(){
 	})
 
 	$('body').on('click', '.redraw', function(ev){
-		var genre = $('.selected_genre').attr('data-genre-number')
-		var url = '/movie.json?genre=' + genre
-		$.post(url, function(response){
-			showMovie(response);
-		})
-
-		var rotation = $(this).attr('data-rotate')
-		$(this).css({'-ms-transform': 'rotate('+rotation+'deg)', '-webkit-transform': 'rotate('+rotation+'deg)', 'transform': 'rotate('+rotation+'deg)'})
-		$(this).attr('data-rotate', parseInt(rotation) + 360);
+		// var genre = $('.selected_genre').attr('data-genre-number')
+		// var url = '/movie.json?genre=' + genre
+		// $.post(url, function(response){
+		// })
+		showMovie(movieHolder[0]);
+		movieHolder.shift();
+		preLoadMovie();
+		rotate($(this));
 	})
 
 	$('body').on('click', '.filter', function(ev){
@@ -166,5 +179,7 @@ $(document).ready(function(){
 		$(this).addClass('selected_genre');
 	})
 
+	movieHolder = [];
+	preLoadMovie();
 	checkIfOpenBarNeeded($('.synopsis'));
 })
