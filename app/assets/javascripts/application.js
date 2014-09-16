@@ -86,7 +86,7 @@ function showMovie(movie){
 		checkIfOpenBarNeeded($('.synopsis'))
 	})
 	delayTransitionHtml($('.consensus_header'), false, 460)
-	delayTransitionHtml($('.critic_consensus'), movie["critic_consensus"], 500)
+	delayTransitionHtml($('.critic_consensus'), '"' + movie["critic_consensus"] + '"', 500)
 	delayTransitionHtml($('.big_tomato'), false, 500)
 
 	setTimeout(function(){

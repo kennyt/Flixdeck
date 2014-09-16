@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
     {
       :genres => movie.genres,
       :cast => movie.cast,
+      :director => movie.director,
       :critic_rating => movie.critic_rating,
       :review_count => movie.review_count,
       :audience_rating => movie.audience_rating,
