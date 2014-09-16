@@ -69,6 +69,7 @@ function showReviews(reviews){
 }
 
 function showMovie(movie){
+	console.log(movie["director"])
 	delayTransitionAttr($('.poster'), 'src', movie["poster"], 0)
 	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20)
 	delayTransitionHtml($('#directors'), movie["director"], 40)
