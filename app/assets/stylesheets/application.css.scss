@@ -398,15 +398,15 @@ body {
 }
 
 .redraw {
-	width: 150px;
-	height: 150px;
+	width: 130px;
+	height: 130px;
 	background-image: url('redraw.png');
-	background-size: 140px 140px;
+	background-size: 120px 120px;
 	background-position: center;
 	background-repeat: no-repeat;
 	position: fixed;
 	right: 20px;
-	top: 25%;
+	top: 40px;
 	border: 5px solid black;
 	border-radius: 50%;
 	cursor: pointer;
