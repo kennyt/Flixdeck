@@ -183,4 +183,15 @@ class Movie < ActiveRecord::Base
 	def self.get_random
  		Movie.where(["critic_rating > ? and review_count > ?", 59, 20]).order("RANDOM()").limit(1)[0]
 	end
+
+	def self.genre_list
+		genres = []
+		Movie.find_each do |movie|
+			movie.genres.split(',').each do |genre|
+				next if genres.include?(genre)
+				genres << genre
+			end
+		end
+		genres
+	end
 end
