@@ -73,7 +73,7 @@ function peopleLinkHtml(people){
 	var html = ""
 	// console.log(people)
 	$.each(people, function(i, person){
-		html = html + '<a class="people linked" href="http://www.google.com/#q="' + person +'>' + person + '</a>'
+		html = html + '<a class="people linked" href="http://www.google.com/#q=' + person +'>' + person + '</a>'
 	})
 
 	// console.log(html);
@@ -81,6 +81,7 @@ function peopleLinkHtml(people){
 }
 
 function showMovie(movie){
+	console.log(peopleLinkHtml(movie["director"]))
 	delayTransitionAttr($('.poster'), 'src', movie["poster"], 0)
 	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20)
 	delayTransitionHtml($('#directors'), peopleLinkHtml(movie["director"]), 40)
