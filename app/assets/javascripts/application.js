@@ -93,7 +93,7 @@ function showMovie(movie){
 		showReviews(movie["reviews"])
 	}, 470)
 
-	$('.play_netflix').attr('href', "http://www.netflix.com/WiPlayer?movieid=" + movie["netflixsource"])
+	$('.play_netflix').attr('href', "http://www.netflix.com/WiMovie/" + movie["netflixsource"])
 	$('#rt_link').attr('href', "http://www.rottentomatoes.com/m/" + movie["rotten_tomatoes_id"])
 	$('.synopsis').attr('style','')
 }
