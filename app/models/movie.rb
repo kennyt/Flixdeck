@@ -150,8 +150,7 @@ class Movie < ActiveRecord::Base
   	movie.save!
 	end
 
-	def self.get_reviews_hash(movie)
-		movie_id = movie.rotten_tomatoes_id
+	def self.get_reviews_hash(movie_id)
 		data = open("http://api.rottentomatoes.com/api/public/v1.0/movies/#{movie_id}/reviews.json?apikey=5r8xr8cqaw9y3a2dhhtz2q7f&page_limit=50&review_type=all")
 		json = data.read
 		reviews = []

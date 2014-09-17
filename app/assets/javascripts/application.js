@@ -68,11 +68,21 @@ function showReviews(reviews){
 	removeExtraReviews(reviews.length)
 }
 
+function peopleLinkHtml(people){
+	var people = people.split(', ')
+	html = ""
+	$.each(people, function(i, person){
+		html = html + '<a class="people linked" href="http://www.google.com/#q="' + person +'>' + person + '</a>'
+	})
+
+	html
+}
+
 function showMovie(movie){
 	delayTransitionAttr($('.poster'), 'src', movie["poster"], 0)
 	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20)
-	delayTransitionHtml($('#directors'), movie["director"], 40)
-	delayTransitionHtml($('#cast'), movie["cast"], 60)
+	delayTransitionHtml($('#directors'), peopleLinkHtml(movie["director"]), 40)
+	delayTransitionHtml($('#cast'), peopleLinkHtml(movie["cast"]), 60)
 	delayTransitionHtml($('#critic_score'), movie["critic_rating"] + '<span class="small">%</span>', 60)
 	delayTransitionHtml($('.critic_tomato'), false, 50)
 	delayTransitionHtml($('#review_count'), movie["review_count"] + ' critic reviews', 50)
@@ -134,6 +144,12 @@ function preLoadMovie(callback){
 	})
 }
 
+function getReviews(rt_id){
+	$.post('/movie/get_reviews.json?rtid=' + rt_id, function(response){
+		showReviews(response)
+	})
+}
+
 function rotate(ele){
 	var rotation = $(ele).attr('data-rotate')
 	$(ele).css({'-ms-transform': 'rotate('+rotation+'deg)', '-webkit-transform': 'rotate('+rotation+'deg)', 'transform': 'rotate('+rotation+'deg)'})
@@ -191,6 +207,10 @@ $(document).ready(function(){
 			movieHolder.shift();
 			$('.redraw').trigger('click');
 		})
+	})
+
+	$('body').on('click','.get_reviews', function(ev){
+		getReviews($('.rating_container').attr('data-rotten-tomatoes-id'))
 	})
 
 	movieHolder = [];

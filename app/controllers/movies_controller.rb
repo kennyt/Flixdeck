@@ -1,7 +1,7 @@
 class MoviesController < ApplicationController
 	def show
 		@movie = false
-		
+
  		if params[:genre].nil? || params[:genre] == "1"
  			genre = false
  		else
@@ -21,6 +21,15 @@ class MoviesController < ApplicationController
 		 		# @reviews = Movie.get_reviews_hash(@movie)
       end
       format.json { render :json => movie_to_json(@movie) }
+    end
+	end
+
+	def get_reviews
+		id = params[:rtid]
+		reviews = Movie.get_reviews_hash(id)
+
+		respond_to do |format|
+      format.json { render :json => reviews }
     end
 	end
 

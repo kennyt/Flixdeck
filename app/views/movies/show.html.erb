@@ -7,12 +7,24 @@
 			</div>
 			<div class="under_poster">
 				<div class="genres"><span class="people_lead">Genre</span> <span class="people" id="genres"><%= @genres %></span></div>
-				<div class="director"><span class="people_lead">Director</span> <span class="people" id="directors"><%= @movie.director %></span></div>
-				<div class="cast"><span class="people_lead">Cast</span> <span class="people" id="cast"><%= @movie.cast %></span></div>
+				<div class="director"><span class="people_lead">Director</span> 
+					<span id="directors">
+						<% @movie.director.split(', ').each do |director| %>
+							<a class="people linked" href="http://www.google.com/#q=<%= director %>"><%= director %></a>
+						<% end %>
+					</span>
+				</div>
+				<div class="cast"><span class="people_lead">Cast</span> 
+					<span id="cast">
+						<% @movie.cast.split(', ').each do |cast| %>
+							<a class="people linked" href="http://www.google.com/#q=<%= cast %>"><%= cast %></a>  
+						<% end %>
+					</span>
+				</div>
 			</div>
 		</div>
 		<div class="movie_info_container">
-			<a class="rating_container" id="rt_link" href="<%= @rt_link %>" title="Go to the movie's Rotten Tomoatoes page.">
+			<a class="rating_container" data-rotten-tomatoes-id="<%= @movie.rotten_tomatoes_id %>" id="rt_link" href="<%= @rt_link %>" title="Go to the movie's Rotten Tomoatoes page.">
 				<div class="critic_section">
 					<div class="rating_holder critic_tomato">
 						<div class="big_number" id="critic_score"><%= @movie.critic_rating %><span class="small">%</span></div>
@@ -51,6 +63,7 @@
 							<span class="critic_consensus">"<%= @movie.critic_consensus %>"</span>
 						</div>
 					</div>
+					<!-- <div class="get_reviews">See more reviews</div> -->
 				</div>
 			</div>
 		</div>
