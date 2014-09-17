@@ -174,50 +174,53 @@ function playMovie(movieHolder, currentGenre){
 }
 
 $(document).ready(function(){
-	$('body').on('click', '.open_bar', function(ev){
-		var synopsis = $('.synopsis')
-		if (synopsis.hasClass('unopened')){
-			var height = $(synopsis).height()
-			var autoHeight = $(synopsis).css('height','auto').height();
-			var animationTime = 400
+	if ($('.page_identifier').attr('data-id') == 'random'){
+		$('body').on('click', '.open_bar', function(ev){
+			var synopsis = $('.synopsis')
+			if (synopsis.hasClass('unopened')){
+				var height = $(synopsis).height()
+				var autoHeight = $(synopsis).css('height','auto').height();
+				var animationTime = 400
 
-			$(synopsis).removeClass('unopened')
-			$(synopsis).height(height).animate({height: autoHeight}, animationTime);
-			$('.open_bar').fadeOut(animationTime)
-			setTimeout(function(){
-				$('.open_bar').remove()
-			},animationTime)
-		}
-	})
-
-	$('body').on('click', '.redraw', function(ev){
-		var currentGenre = $('.selected_genre').text()
-		playMovie(movieHolder, currentGenre)
-		rotate($(this));
-	})
-
-	$('body').on('click', '.filter', function(ev){
-		$('.genre_container').animate({ left: 0}, 300)
-	})
-
-	$('body').on('click', '.close_genre', function(ev){
-		$('.genre_container').animate({ left: '-200'}, 300)
-	})
-
-	$('body').on('click', '.a_genre', function(ev){
-		$('.selected_genre').removeClass('selected_genre')
-		$(this).addClass('selected_genre');
-		preLoadMovie(function(){
-			movieHolder.shift();
-			$('.redraw').trigger('click');
+				$(synopsis).removeClass('unopened')
+				$(synopsis).height(height).animate({height: autoHeight}, animationTime);
+				$('.open_bar').fadeOut(animationTime)
+				setTimeout(function(){
+					$('.open_bar').remove()
+				},animationTime)
+			}
 		})
-	})
 
-	$('body').on('click','.get_reviews', function(ev){
-		getReviews($('.rating_container').attr('data-rotten-tomatoes-id'))
-	})
+		$('body').on('click', '.redraw', function(ev){
+			var currentGenre = $('.selected_genre').text()
+			playMovie(movieHolder, currentGenre)
+			rotate($(this));
+		})
 
-	movieHolder = [];
-	preLoadMovie();
-	checkIfOpenBarNeeded($('.synopsis'));
+		$('body').on('click', '.filter', function(ev){
+			$('.genre_container').animate({ left: 0}, 300)
+		})
+
+		$('body').on('click', '.close_genre', function(ev){
+			$('.genre_container').animate({ left: '-200'}, 300)
+		})
+
+		$('body').on('click', '.a_genre', function(ev){
+			$('.selected_genre').removeClass('selected_genre')
+			$(this).addClass('selected_genre');
+			preLoadMovie(function(){
+				movieHolder.shift();
+				$('.redraw').trigger('click');
+			})
+		})
+
+		$('body').on('click','.get_reviews', function(ev){
+			getReviews($('.rating_container').attr('data-rotten-tomatoes-id'))
+		})
+
+		movieHolder = [];
+		preLoadMovie();
+		checkIfOpenBarNeeded($('.synopsis'));
+		$('body').css('background','#F3F2F1')
+	}
 })

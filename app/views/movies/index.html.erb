@@ -1,0 +1,62 @@
+<div class="page_identifier" data-id="index"></div>
+<div class="top_banner">
+	<div class="flixdeck_title">FlixDeck</div>
+</div>
+<div class="movie_index_wrapper">
+	<div class="movie_row" id="comedy_row">
+		<div class="row_title">Comedy</div>
+		<%= render partial: "shelf", locals: {movies: @comedies} %>
+	</div>
+	<div class="movie_row" id="action_adventure_row">
+		<div class="row_title">Action & Adventure</div>
+		<%= render partial: "shelf", locals: {movies: @action_advent} %>
+	</div>
+	<div class="movie_row" id="mystery_suspense_row">
+		<div class="row_title">Mystery & Suspense</div>
+		<%= render partial: "shelf", locals: {movies: @mystery} %>
+	</div>
+	<div class="movie_row" id="horror_row">
+		<div class="row_title">Horror</div>
+		<%= render partial: "shelf", locals: {movies: @horror} %>
+	</div>
+	<div class="movie_row" id="ultra_row">
+		<div class="row_title">> 90%</div>
+		<%= render partial: "shelf", locals: {movies: @ninety} %>
+	</div>
+	<div class="movie_row" id="drama_row">
+		<div class="row_title">Drama</div>
+		<%= render partial: "shelf", locals: {movies: @drama} %>
+	</div>
+	<div class="movie_row" id="romance_row">
+		<div class="row_title">Romance</div>
+		<%= render partial: "shelf", locals: {movies: @romance} %>
+	</div>
+	<div class="movie_row" id="art_international_row">
+		<div class="row_title">Art House & International</div>
+		<%= render partial: "shelf", locals: {movies: @art_international} %>
+	</div>
+	<div class="movie_row" id="science_fantasy_row">
+		<div class="row_title">Science Fiction & Fantasy</div>
+		<%= render partial: "shelf", locals: {movies: @scifi} %>
+	</div>
+	<div class="movie_row" id="animation_row">
+		<div class="row_title">Animation</div>
+		<%= render partial: "shelf", locals: {movies: @animation} %>
+	</div>
+	<div class="movie_row" id="cult_row">
+		<div class="row_title">Cult Movies</div>
+		<%= render partial: "shelf", locals: {movies: @cult} %>
+	</div>
+	<div class="movie_row" id="documentary_row">
+		<div class="row_title">Documentary</div>
+		<%= render partial: "shelf", locals: {movies: @documentary} %>
+	</div>
+	<div class="movie_row" id="classics_row">
+		<div class="row_title">Classics</div>
+		<%= render partial: "shelf", locals: {movies: @classic} %>
+	</div>
+	<div class="movie_row" id="family_row">
+		<div class="row_title">Kids & Family</div>
+		<%= render partial: "shelf", locals: {movies: @kids} %>
+	</div>
+</div>

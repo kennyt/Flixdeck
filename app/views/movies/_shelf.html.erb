@@ -1,0 +1,8 @@
+<div class="shelf">
+	<% movies.each do |movie| %>
+		<div class="poster_container">
+			<img class="poster" src="<%= movie.poster %>">
+			<a class="play_netflix" href="http://www.netflix.com/WiMovie/<%= movie.netflixsource %>"><div class="play_button"></div></a>
+		</div>
+	<% end %>
+</div>

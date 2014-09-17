@@ -188,6 +188,15 @@ class Movie < ActiveRecord::Base
 	 	end
 	end
 
+	def self.get_genre(num, genre)
+		genre = "%#{genre}%"
+		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ?", 59, 20, genre]).order("RANDOM()").limit(num)
+	end
+
+	def self.get_ultra(num)
+		Movie.where(["critic_rating > ? and review_count > ?", 89, 20]).order("RANDOM()").limit(num)
+	end
+
 	def self.all_genres
 		genres = ["Drama", "Romance", "Comedy", "Mystery & Suspense", "Action & Adventure", "Documentary", "Horror", "Special Interest", "Art House & International", "Science Fiction & Fantasy", "Musical & Performing Arts", "Faith & Spirituality", "Animation", "Kids & Family", "Sports & Fitness", "Classics", "Western", "Television", "Cult Movies", "Gay & Lesbian", "Anime & Manga"]
 	end

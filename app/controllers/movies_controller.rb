@@ -1,4 +1,21 @@
 class MoviesController < ApplicationController
+	def index
+		@comedies = Movie.get_genre(5, "Comedy")
+		@action_advent = Movie.get_genre(5, "Action & Adventure")
+		@mystery = Movie.get_genre(5, "Mystery & Suspense")
+		@horror = Movie.get_genre(5, "Horror")
+		@ninety = Movie.get_ultra(5)
+		@drama = Movie.get_genre(5, "Drama")
+		@romance = Movie.get_genre(5, "Romance")
+		@art_international = Movie.get_genre(5, "Art House & International")
+		@scifi = Movie.get_genre(5, "Science Fiction & Fantasy")
+		@animation = Movie.get_genre(5, "Animation")
+		@cult = Movie.get_genre(5, "Cult Movies")
+		@documentary = Movie.get_genre(5, "Documentary")
+		@classic = Movie.get_genre(5, "Classics")
+		@kids = Movie.get_genre(5, "Kids & Family")
+	end
+
 	def show
 		@movie = false
 
