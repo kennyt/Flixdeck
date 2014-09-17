@@ -18,7 +18,7 @@ class MoviesController < ApplicationController
 		 		movie_id = @movie.rotten_tomatoes_id
 		 		@rt_link = "http://www.rottentomatoes.com/m/#{movie_id}"
 		 		@genres = @movie.genres.split(',').join(', ')
-		 		@reviews = Movie.get_reviews_hash(@movie)
+		 		# @reviews = Movie.get_reviews_hash(@movie)
       end
       format.json { render :json => movie_to_json(@movie) }
     end

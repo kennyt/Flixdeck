@@ -89,9 +89,9 @@ function showMovie(movie){
 	delayTransitionHtml($('.critic_consensus'), '"' + movie["critic_consensus"] + '"', 500)
 	delayTransitionHtml($('.big_tomato'), false, 500)
 
-	setTimeout(function(){
-		showReviews(movie["reviews"])
-	}, 470)
+	// setTimeout(function(){
+	// 	showReviews(movie["reviews"])
+	// }, 470)
 
 	$('.play_netflix').attr('href', "http://www.netflix.com/WiMovie/" + movie["netflixsource"])
 	$('#rt_link').attr('href', "http://www.rottentomatoes.com/m/" + movie["rotten_tomatoes_id"])
@@ -187,7 +187,10 @@ $(document).ready(function(){
 	$('body').on('click', '.a_genre', function(ev){
 		$('.selected_genre').removeClass('selected_genre')
 		$(this).addClass('selected_genre');
-		$('.redraw').trigger('click');
+		preLoadMovie(function(){
+			movieHolder.shift();
+			$('.redraw').trigger('click');
+		})
 	})
 
 	movieHolder = [];

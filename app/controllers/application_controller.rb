@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
       :mpaa => movie.mpaa,
       :synopsis => movie.synopsis,
       :critic_consensus => movie.critic_consensus,
-      :reviews => Movie.get_reviews_hash(movie),
+      # :reviews => Movie.get_reviews_hash(movie),
       :audience_class => movie.audience_rating > 60 ? "fresh_popcorn" : "spilled_popcorn",
       :netflixsource => movie.netflixsource,
       :rotten_tomatoes_id => movie.rotten_tomatoes_id,
