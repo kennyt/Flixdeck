@@ -69,7 +69,6 @@ function showReviews(reviews){
 }
 
 function showMovie(movie){
-	console.log(movie["director"])
 	delayTransitionAttr($('.poster'), 'src', movie["poster"], 0)
 	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20)
 	delayTransitionHtml($('#directors'), movie["director"], 40)
@@ -124,11 +123,14 @@ function delayTransitionAttr(ele, attr, attrValue, delay){
 	}, delay)
 }
 
-function preLoadMovie(){
+function preLoadMovie(callback){
 	var genre = $('.selected_genre').attr('data-genre-number')
 	var url = '/movie.json?genre=' + genre
 	$.post(url, function(response){
 		movieHolder.push(response);
+		if (callback){
+			callback();
+		}
 	})
 }
 
@@ -156,13 +158,17 @@ $(document).ready(function(){
 	})
 
 	$('body').on('click', '.redraw', function(ev){
-		// var genre = $('.selected_genre').attr('data-genre-number')
-		// var url = '/movie.json?genre=' + genre
-		// $.post(url, function(response){
-		// })
-		showMovie(movieHolder[0]);
+		var currentGenre = $('.selected_genre').html()
+		var nextMovie = movieHolder[0]
+		if (currentGenre == "All" || nextMovie["genres"].indexOf(currentGenre) != -1){
+			showMovie(movieHolder[0]);
+			preLoadMovie();
+		} else {
+			preLoadMovie(function(){
+				$('.redraw').trigger('click');
+			})
+		}
 		movieHolder.shift();
-		preLoadMovie();
 		rotate($(this));
 	})
 
@@ -175,7 +181,7 @@ $(document).ready(function(){
 	})
 
 	$('body').on('click', '.a_genre', function(ev){
-		$('.selected_genre').attr('class', 'a_genre');
+		$('.selected_genre').removeClass('selected_genre')
 		$(this).addClass('selected_genre');
 	})
 
