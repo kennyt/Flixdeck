@@ -70,12 +70,14 @@ function showReviews(reviews){
 
 function peopleLinkHtml(people){
 	var people = people.split(', ')
-	html = ""
+	var html = ""
+	// console.log(people)
 	$.each(people, function(i, person){
 		html = html + '<a class="people linked" href="http://www.google.com/#q="' + person +'>' + person + '</a>'
 	})
 
-	html
+	// console.log(html);
+	return html
 }
 
 function showMovie(movie){
