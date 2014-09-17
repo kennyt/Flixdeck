@@ -171,7 +171,7 @@ $(document).ready(function(){
 	})
 
 	$('body').on('click', '.redraw', function(ev){
-		var currentGenre = $('.selected_genre').html()
+		var currentGenre = $('.selected_genre').text()
 		playMovie(movieHolder, currentGenre)
 		rotate($(this));
 	})
