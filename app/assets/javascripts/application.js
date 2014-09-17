@@ -73,7 +73,8 @@ function peopleLinkHtml(people){
 	var html = ""
 	// console.log(people)
 	$.each(people, function(i, person){
-		html = html + '<a class="people linked" href="http://www.google.com/#q=' + person +'>' + person + '</a>'
+		var googleSearchable = person.split(' ').join('%20')
+		html = html + '<a class="people linked" href="http://www.google.com/#q=' + googleSearchable +'">' + person + '</a>'
 	})
 
 	// console.log(html);
