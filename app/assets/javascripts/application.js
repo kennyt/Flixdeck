@@ -187,6 +187,7 @@ $(document).ready(function(){
 	$('body').on('click', '.a_genre', function(ev){
 		$('.selected_genre').removeClass('selected_genre')
 		$(this).addClass('selected_genre');
+		$('.redraw').trigger('click');
 	})
 
 	movieHolder = [];
