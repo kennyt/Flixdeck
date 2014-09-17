@@ -140,6 +140,19 @@ function rotate(ele){
 	$(ele).attr('data-rotate', parseInt(rotation) + 360);
 }
 
+function playMovie(movieHolder, currentGenre){
+	var nextMovie = movieHolder[0]
+	if (currentGenre == "All" || nextMovie["genres"].indexOf(currentGenre) != -1){
+		showMovie(movieHolder[0]);
+		preLoadMovie();
+	} else {
+		preLoadMovie(function(){
+			$('.redraw').trigger('click');
+		})
+	}
+	movieHolder.shift();
+}
+
 $(document).ready(function(){
 	$('body').on('click', '.open_bar', function(ev){
 		var synopsis = $('.synopsis')
@@ -159,16 +172,7 @@ $(document).ready(function(){
 
 	$('body').on('click', '.redraw', function(ev){
 		var currentGenre = $('.selected_genre').html()
-		var nextMovie = movieHolder[0]
-		if (currentGenre == "All" || nextMovie["genres"].indexOf(currentGenre) != -1){
-			showMovie(movieHolder[0]);
-			preLoadMovie();
-		} else {
-			preLoadMovie(function(){
-				$('.redraw').trigger('click');
-			})
-		}
-		movieHolder.shift();
+		playMovie(movieHolder, currentGenre)
 		rotate($(this));
 	})
 
