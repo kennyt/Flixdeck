@@ -630,7 +630,7 @@ body {
 	height: 200px;
 	/*border-right: 1px solid grey;*/
 	position: absolute;
-	top: 0px;
+	top: 110px;
 	left: -180px;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 22px;
@@ -665,16 +665,16 @@ body {
 	height: 30px;
 	color: white;
 	background: rgb(0, 0, 0);
-	background: rgba(0,0,0,0.3);
+	background: rgba(0,0,0,0.8);
 	opacity: 1;
 }
 
 .corner_rating {
 	right: 5px;
-	top: 0px;
+	top: 2px;
 	font-family: arial, helvetica, sans-serif;
-	font-size: 22px;
-	/*font-weight: bold;*/
+	font-size: 23px;
+	font-weight: bold;
 	letter-spacing: 0px;
 	width: 65px;
 	left: 24px;
@@ -697,9 +697,104 @@ body {
 }
 
 .movie_card {
-	overflow: hidden;
+	
 	position: relative;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
 	margin-bottom: 40px;
+
+	.whitewrap{
+		background: #181818;
+	}
+
+	.bottom_wrap{
+		/*float: none !important;*/
+		border: 0px;
+		background: #383838;
+		box-shadow:         inset 0 -10px 20px -2px #303030;
+		-moz-box-shadow:    inset 0 -10px 20px -2px #303030;
+		-webkit-box-shadow: inset 0 -10px 20px -2px #303030;
+	}
+
+	.film_title {
+		color: white;
+	}
+
+	.synopsis {
+		color:#C0C0C0;
+	}
+
+	.people_lead{
+		color: #D8D8D8;
+	}
+
+	.people {
+		color: #A0A0A0;
+	}
+
+	.linked {
+		&:hover{
+			color: #e85445;
+			border-bottom: 1px solid #e85445;
+		}
+	}
+
+	.mpaa {
+		background: #686868;
+		color: #D0D0D0;
+	}
+
+	.rating_container{
+		background: #686868;
+		&:hover{
+			background:#383838;
+		}
+	}
+
+	.big_number {
+		color: #E0E0E0;
+	}
+
+	.below_rating {
+		color: #E0E0E0;
+	}
+
+	.consensus_header, .critic_consensus{
+		color: #E0E0E0;
+	}
+
+	.play_netflix {
+	  opacity: 1;
+	  background:rgba(255,255,255, 0.1);
+	}
+	.play_netflix:hover{
+	  /*opacity: .9;*/
+	  background:rgba(255,255,255, 0.8);
+	}
+
+	.play_button{
+	  background-color:rgba(255,255,255, 0.3);
+	}
+
+	.open_bar {
+		background: #C8C8C8;
+		&:hover{
+			background: #505050 ;
+		}
+	}
+}
+
+.movie_card::after{
+  clear: both;
+  content: "";
+  display: block;
+}
+
+.triangle {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 20px 20px 20px;
+	border-color: transparent transparent #181818 transparent;
+
+	position: absolute;
+	top: -1000px;
 }

@@ -199,22 +199,10 @@ function eleToMovie(ele){
 }
 
 $(document).ready(function(){
-	if ($('.page_identifier').attr('data-id') == 'random'){
-		$('body').on('click', '.open_bar', function(ev){
-			var synopsis = $('.synopsis')
-			if (synopsis.hasClass('unopened')){
-				var height = $(synopsis).height()
-				var autoHeight = $(synopsis).css('height','auto').height();
-				var animationTime = 400
 
-				$(synopsis).removeClass('unopened')
-				$(synopsis).height(height).animate({height: autoHeight}, animationTime);
-				$('.open_bar').fadeOut(animationTime)
-				setTimeout(function(){
-					$('.open_bar').remove()
-				},animationTime)
-			}
-		})
+
+	//on random only
+	if ($('.page_identifier').attr('data-id') == 'random'){
 
 		$('body').on('click', '.redraw', function(ev){
 			var currentGenre = $('.selected_genre').text()
@@ -249,11 +237,57 @@ $(document).ready(function(){
 		$('body').css('background','#F3F2F1')
 	}
 
+
+
+	//on index only
 	if ($('.page_identifier').attr('data-id') == 'index'){
 		$('body').on('click', '.cover_more_info', function(ev){
+			$('.triangle').css({'left': $(this).offset().left + 80, 'top':'-20px'})
+			var currentParent = $('.movie_card').parent()
+			var currentIndex = $('.movie_card').index()
+			var leavingRow = currentParent.children()[currentIndex-1]
 			var movie = eleToMovie($(this))
-			console.log(movie)
+			var parent = $(this).parent().parent().parent()
+			var clone = $('.movie_card').clone();
+			var height = $(clone).height()
+
+			$('.movie_card').show()
+
+			$(parent).after($('.movie_card'))
+
+			if (!($(currentParent).is('body')) && ($(leavingRow).index() != $(parent).index() )) {
+				$(leavingRow).after($(clone))
+			}
+			
+
+
+			$('body,html').animate({scrollTop: $(parent).offset().top + 110}, 300, function(){
+				$(clone).remove();
+				$('body').scrollTop($(parent).offset().top + 110)
+			})
+			// $('.movie_card').animate({height: 750}, 300)
+			$('.movie_card').append($('.triangle'))
 			showMovie(movie)
 		})
+
+		$('.movie_card').hide();
 	}
+
+
+	//no matter what page
+	$('body').on('click', '.open_bar', function(ev){
+			var synopsis = $('.synopsis')
+			if (synopsis.hasClass('unopened')){
+				var height = $(synopsis).height()
+				var autoHeight = $(synopsis).css('height','auto').height();
+				var animationTime = 400
+
+				$(synopsis).removeClass('unopened')
+				$(synopsis).height(height).animate({height: autoHeight}, animationTime);
+				$('.open_bar').fadeOut(animationTime)
+				setTimeout(function(){
+					$('.open_bar').remove()
+				},animationTime)
+			}
+		})
 })
