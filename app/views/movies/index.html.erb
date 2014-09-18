@@ -7,6 +7,11 @@
 		<div class="row_title">Comedy</div>
 		<%= render partial: "shelf", locals: {movies: @comedies} %>
 	</div>
+
+	<div class="movie_card">
+		<%= render partial: "movie_card", locals:{movie: @comedies[0]} %>
+	</div>
+
 	<div class="movie_row" id="action_adventure_row">
 		<div class="row_title">Action & Adventure</div>
 		<%= render partial: "shelf", locals: {movies: @action_advent} %>

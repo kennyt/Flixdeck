@@ -82,8 +82,7 @@ function peopleLinkHtml(people){
 }
 
 function showMovie(movie){
-	console.log(peopleLinkHtml(movie["director"]))
-	delayTransitionAttr($('.poster'), 'src', movie["poster"], 0)
+	delayTransitionAttr($('.whitewrap .poster'), 'src', movie["poster"], 0)
 	delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20)
 	delayTransitionHtml($('#directors'), peopleLinkHtml(movie["director"]), 40)
 	delayTransitionHtml($('#cast'), peopleLinkHtml(movie["cast"]), 60)
@@ -173,6 +172,32 @@ function playMovie(movieHolder, currentGenre){
 	movieHolder.shift();
 }
 
+function eleToMovie(ele){
+	var movie = {}
+	movie["genres"] = ele.attr('data-genres')
+	movie["cast"] = ele.attr('data-cast')
+	movie["director"] = ele.attr('data-directors')
+	movie["critic_rating"] = ele.attr('data-critic-rating')
+	movie["review_count"] = ele.attr('data-review-count')
+	movie["audience_rating"] = ele.attr('data-audience-rating')
+	movie["title"] = ele.attr('data-title')
+	movie["runtime"] = ele.attr('data-runtime')
+	movie["mpaa"] = ele.attr('data-mpaa')
+	movie["synopsis"] = ele.attr('data-synopsis')
+	movie["critic_consensus"] = ele.attr('data-critic-consensus')
+	movie["netflixsource"] = ele.attr('data-netflixsource')
+	movie["rotten_tomatoes_id"] = ele.attr('data-rotten-tomatoes-id')
+	movie["poster"] = ele.attr('data-poster')
+
+	if (parseInt(movie["audience_rating"]) > 60){
+		movie["audience_class"] = "fresh_popcorn"
+	} else {
+		movie["audience_class"] = "spilled_popcorn"
+	}
+
+	return movie
+}
+
 $(document).ready(function(){
 	if ($('.page_identifier').attr('data-id') == 'random'){
 		$('body').on('click', '.open_bar', function(ev){
@@ -222,5 +247,13 @@ $(document).ready(function(){
 		preLoadMovie();
 		checkIfOpenBarNeeded($('.synopsis'));
 		$('body').css('background','#F3F2F1')
+	}
+
+	if ($('.page_identifier').attr('data-id') == 'index'){
+		$('body').on('click', '.cover_more_info', function(ev){
+			var movie = eleToMovie($(this))
+			console.log(movie)
+			showMovie(movie)
+		})
 	}
 })

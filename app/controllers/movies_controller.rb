@@ -50,6 +50,15 @@ class MoviesController < ApplicationController
     end
 	end
 
+	def get_five
+		genre = params[:genre]
+		movies = Movie.get_genre(5, genre)
+
+		respond_to do |format|
+      format.json { render :json => movies_to_json(movies) }
+    end
+	end
+
 	def pass_filter?(movie)
 		movie != false && 
 		movie.critic_rating > 59 && 
