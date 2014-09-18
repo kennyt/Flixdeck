@@ -2,11 +2,15 @@
 
 <%= render partial: "movie_card", locals: {movie: @movie} %>
 
-<div class="filter"><div class="filter_word">Genres</div></div>
+<div class="filter"><div class="filter_word">Filters</div></div>
 <div class="redraw" data-rotate="360" title="re-draw"></div>
 <div class="genre_container">
 	<div class="close_genre">
 		x
+	</div>
+	<div class="rating_filter" data-min-score="60">
+		<div class="filter_bar"></div>
+		<span class="score_filter_word">minimum: 60%</span>
 	</div>
 	<div class="genre_list">
 		<div class="a_genre selected_genre" style="font-size:30px;" data-genre-number="1">All</div>

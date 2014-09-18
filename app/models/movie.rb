@@ -179,12 +179,13 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	def self.get_random(genre)
+	def self.get_random(genre, min_score)
+		min_score -= 1
 		if genre
 			genre = "%#{genre}%"
-	 		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ?", 59, 20, genre]).order("RANDOM()").limit(1)[0]
+	 		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ?", min_score, 20, genre]).order("RANDOM()").limit(1)[0]
 	 	else
-			Movie.where(["critic_rating > ? and review_count > ?", 59, 20]).order("RANDOM()").limit(1)[0]
+			Movie.where(["critic_rating > ? and review_count > ?", min_score, 20]).order("RANDOM()").limit(1)[0]
 	 	end
 	end
 
@@ -217,6 +218,12 @@ class Movie < ActiveRecord::Base
 
 		self.all_genres.select do |genre|
 			!natural_genres.include?(genre)
+		end
+	end
+
+	def self.give_random_critic_rating
+		Movie.find_each do |movie|
+			movie.update_attribute(:critic_rating, rand(100))
 		end
 	end
 end

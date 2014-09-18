@@ -23,6 +23,15 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def movies_to_json(movies)
+    movie_json = []
+    movies.each do |movie|
+      movie_json << movie_to_json(movie)
+    end
+
+    {:movies => movie_json}
+  end
+
   def genre_num_to_genre(num)
   	case num
   	when "1"

@@ -25,8 +25,14 @@ class MoviesController < ApplicationController
  			genre = genre_num_to_genre(params[:genre])
  		end
 
-		until pass_filter?(@movie)
-			@movie = Movie.get_random(genre)
+ 		if params[:minscore].nil?
+ 			min_score = 60
+ 		else
+ 			min_score = params[:minscore].to_i
+ 		end
+
+		until pass_filter?(@movie, min_score)
+			@movie = Movie.get_random(genre, min_score)
  		end
 
  		respond_to do |format|
@@ -52,16 +58,22 @@ class MoviesController < ApplicationController
 
 	def get_five
 		genre = params[:genre]
-		movies = Movie.get_genre(5, genre)
+		if genre == "15"
+			movies = Movie.get_ultra(5)
+		else
+			movies = Movie.get_genre(5, genre_num_to_genre(genre))
+		end
+
+		p genre_num_to_genre(genre)
 
 		respond_to do |format|
       format.json { render :json => movies_to_json(movies) }
     end
 	end
 
-	def pass_filter?(movie)
+	def pass_filter?(movie, min_score)
 		movie != false && 
-		movie.critic_rating > 59 && 
+		movie.critic_rating > min_score - 1 && 
 		movie.review_count > 20
 	end
 end
