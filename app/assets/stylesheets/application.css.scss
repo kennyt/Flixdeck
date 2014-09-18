@@ -587,7 +587,7 @@ body {
 	font-weight: bold;
 	letter-spacing: -1px;
 	cursor: pointer;
-	opacity: .3;
+	opacity: .7;
 	background: #888888;
 	-webkit-transition: all 120ms ease-out;
   -moz-transition: all 120ms ease-out;
@@ -628,7 +628,7 @@ body {
 
 .movie_row {
 	height: 300px;
-	margin-bottom: 40px;
+	margin-bottom: 72px;
 	/*border-top: 1px solid black;*/
 	margin-left: 200px;
 	/*margin-right: 200px;*/
@@ -664,13 +664,13 @@ body {
 	border-radius: 50%;
 	border: 5px solid black;
 	cursor: pointer;
-	opacity: .09;
+	opacity: .13;
 
-	-webkit-transition: all 250ms ease-out;
-  -moz-transition: all 250ms ease-out;
-  -o-transition: all 250ms ease-out;
-  -ms-transition: all 250ms ease-out;
-  transition: all 250ms ease-out;
+	-webkit-transition: all 350ms ease-out;
+  -moz-transition: all 350ms ease-out;
+  -o-transition: all 350ms ease-out;
+  -ms-transition: all 350ms ease-out;
+  transition: all 350ms ease-out;
 
   &:hover {
   	border: 5px solid #e74c3c;
@@ -738,7 +738,7 @@ body {
 	height: 300px;
 	.poster_container {
 		width: 200px;
-		margin-right: 60px;
+		margin-right: 40px;
 		padding-top: 0px;
 	}
 	.play_netflix{

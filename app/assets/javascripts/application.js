@@ -156,6 +156,9 @@ function getReviews(rt_id){
 
 function rotate(ele){
 	var rotation = $(ele).attr('data-rotate')
+	if (rotation == undefined){
+		rotation = 360;
+	}
 	$(ele).css({'-ms-transform': 'rotate('+rotation+'deg)', '-webkit-transform': 'rotate('+rotation+'deg)', 'transform': 'rotate('+rotation+'deg)'})
 	$(ele).attr('data-rotate', parseInt(rotation) + 360);
 }
@@ -245,6 +248,26 @@ function transitionMovieShelf(movieRow, movie, i){
 	movieToEle(movie, oldMovie)
 }
 
+function scaleMargins(){
+	var width = $(window).width()
+	var margins = (width - 1200) / 5
+
+	if (margins > 65){
+		margins = 60
+		// var movieIndexWidth = (margins * 5) + 1200
+		// var sidePadding = (width - movieIndexWidth) / 2
+		$('.poster_container').css('margin-right', margins + 'px')
+		// $('.movie_index_wrapper').css({'width': movieIndexWidth + 'px'})
+		// $('.shelf').css('margin-left', sidePadding + 200 + 'px')
+		// $('.flixdeck_title').css('margin-left', $('.movie_index_wrapper').offset().left + 200)
+	} else if (margins < 0) {
+		margins = 20
+		$('.poster_container').css('margin-right', margins + 'px')
+	} else {
+		$('.poster_container').css('margin-right', margins + 'px')
+	}
+}
+
 $(document).ready(function(){
 
 
@@ -325,8 +348,10 @@ $(document).ready(function(){
 			var parent = $($('.movie_index_wrapper').children()[$(this).parent().parent().index()]).find('.shelf')
 			getFive(parent);
 			$('.close_card').trigger('click')
+			rotate($(this))
 		})
 
+		scaleMargins();
 		$('.movie_card').hide();
 		$('.movie_card').append('<div class="close_card">x</div>')
 	}
