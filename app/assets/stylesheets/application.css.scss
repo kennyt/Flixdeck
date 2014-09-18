@@ -720,6 +720,7 @@ body {
 
 	.synopsis {
 		color:#C0C0C0;
+		font-size: 17px;
 	}
 
 	.people_lead{
@@ -797,4 +798,31 @@ body {
 
 	position: absolute;
 	top: -1000px;
+}
+
+.close_card {
+	color: white;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 100px;
+	font-weight: bold;
+	position: absolute;
+	right: 20px;
+	top: 40px;
+	width: 130px;
+	height: 130px;
+	border: 5px solid white;
+	border-radius: 50%;
+	text-align: center;
+	cursor: pointer;
+	opacity: .7;
+
+	-webkit-transition: all 350ms ease-out;
+  -moz-transition: all 350ms ease-out;
+  -o-transition: all 350ms ease-out;
+  -ms-transition: all 350ms ease-out;
+  transition: all 350ms ease-out;
+
+	&:hover {
+		opacity: 1;
+	}
 }

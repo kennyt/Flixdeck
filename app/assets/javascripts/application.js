@@ -188,6 +188,7 @@ function eleToMovie(ele){
 	movie["netflixsource"] = ele.attr('data-netflixsource')
 	movie["rotten_tomatoes_id"] = ele.attr('data-rotten-tomatoes-id')
 	movie["poster"] = ele.attr('data-poster')
+	movie["year"] = ele.attr('data-year')
 
 	if (parseInt(movie["audience_rating"]) > 60){
 		movie["audience_class"] = "fresh_popcorn"
@@ -249,15 +250,14 @@ $(document).ready(function(){
 			var movie = eleToMovie($(this))
 			var parent = $(this).parent().parent().parent()
 			var height = $('.movie_card').height()
-
-			$('.movie_card').show()
-
+			
 			$(parent).after($('.movie_card'))
 
-			if (!($(currentParent).is('body')) && ($(leavingRow).attr('id') != $(parent).attr('id') )) {
+			if (!($(currentParent).is('body')) && ($(leavingRow).attr('id') != $(parent).attr('id')) ){
 				$(leavingRow).css('padding-bottom', height + 'px')
 			}
 			
+			$('.movie_card').show()
 
 
 			$('body,html').animate({scrollTop: $(parent).offset().top + 110}, 300, function(){
@@ -269,7 +269,16 @@ $(document).ready(function(){
 			showMovie(movie)
 		})
 
+		$('body').on('click', '.close_card', function(ev){
+			$('.movie_card').animate({height: 0}, 500, function(){
+				$('.movie_card').removeAttr('style');
+				$('.movie_card').hide();
+				$('body').append($('.movie_card'))
+			})
+		})
+
 		$('.movie_card').hide();
+		$('.movie_card').append('<div class="close_card">x</div>')
 	}
 
 
