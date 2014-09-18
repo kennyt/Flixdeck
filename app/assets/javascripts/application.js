@@ -248,21 +248,20 @@ $(document).ready(function(){
 			var leavingRow = currentParent.children()[currentIndex-1]
 			var movie = eleToMovie($(this))
 			var parent = $(this).parent().parent().parent()
-			var clone = $('.movie_card').clone();
-			var height = $(clone).height()
+			var height = $('.movie_card').height()
 
 			$('.movie_card').show()
 
 			$(parent).after($('.movie_card'))
 
-			if (!($(currentParent).is('body')) && ($(leavingRow).index() != $(parent).index() )) {
-				$(leavingRow).after($(clone))
+			if (!($(currentParent).is('body')) && ($(leavingRow).attr('id') != $(parent).attr('id') )) {
+				$(leavingRow).css('padding-bottom', height + 'px')
 			}
 			
 
 
 			$('body,html').animate({scrollTop: $(parent).offset().top + 110}, 300, function(){
-				$(clone).remove();
+				$(leavingRow).css('padding-bottom', '0px')
 				$('body').scrollTop($(parent).offset().top + 110)
 			})
 			// $('.movie_card').animate({height: 750}, 300)
