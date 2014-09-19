@@ -990,16 +990,16 @@ body {
 .browse_button {
 	position: fixed;
 	text-decoration: none;
-	color: #383838;
+	color: #e74c3c;
 	top: 4px;
-	left: 40px;
+	left: 58px;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 19px;
 	font-weight: bold;
 	letter-spacing: -1px;
 	display: block;
 	width: 100px;
-	opacity: .4;
+	opacity: .6;
 
 	&:hover {
 		text-decoration: underline;
