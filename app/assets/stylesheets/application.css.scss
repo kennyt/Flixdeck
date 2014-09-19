@@ -608,6 +608,13 @@ body {
 	margin-left: 200px;
 	margin-top: 40px;
 	line-height: 1;
+	display: block;
+	text-decoration: none;
+	color: #383838;
+	width: 230px;
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 .go_to_random {
@@ -620,7 +627,7 @@ body {
 	top: 64px;
 	border-bottom: 2px solid grey;
 	text-decoration: none;
-	color: black;
+	color: #404040;
 	opacity: .4;
 	&:hover {
 		opacity: 1;
@@ -975,4 +982,24 @@ body {
 
 .hidden_container {
 	display: none;
+}
+
+.browse_button {
+	position: fixed;
+	text-decoration: none;
+	color: #383838;
+	top: 4px;
+	left: 40px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 19px;
+	font-weight: bold;
+	letter-spacing: -1px;
+	display: block;
+	width: 100px;
+	opacity: .4;
+
+	&:hover {
+		text-decoration: underline;
+		opacity: 1;
+	}
 }

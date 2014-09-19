@@ -196,7 +196,7 @@ class Movie < ActiveRecord::Base
 
 	def self.get_ordered_genre(num, genre)
 		genre = "%#{genre}%"
-		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ?", 59, 20, genre]).order("critic_rating DESC").limit(num)
+		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ?", 59, 14, genre]).order("critic_rating DESC").limit(num)
 	end
 
 	def self.get_ultra(num)
