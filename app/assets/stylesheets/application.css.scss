@@ -660,6 +660,9 @@ body {
 		.refresh{
 			opacity: .7;
 		}
+		.row_title{
+			color: #e74c3c;
+		}
 	}
 }
 
@@ -692,18 +695,18 @@ body {
 .row_title {
 	/*border-right: 1px solid grey;*/
 	position: absolute;
-	top: 110px;
+	top: 100px;
 	left: 20px;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 22px;
 	font-weight: bold;
 	letter-spacing: -1px;
 	color: #888888;
-	line-height: 0.9;
+	line-height: 1.1;
 	text-decoration: none;
 
 	&:hover{
-		text-decoration: underline;
+			text-decoration: underline;
 	}
 	/*-webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);

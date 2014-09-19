@@ -390,9 +390,9 @@ $(document).ready(function(){
 
 			$('.movie_card').show()
 
-			$('body,html').animate({scrollTop: $(parent).offset().top + 110}, 300, function(){
+			$('body,html').animate({scrollTop: $(parent).offset().top + 100}, 300, function(){
 				$(leavingRow).css('padding-bottom', '0px')
-				$('body').scrollTop($(parent).offset().top + 110)
+				$('body').scrollTop($(parent).offset().top + 100)
 			})
 
 			showMovie(movie)
