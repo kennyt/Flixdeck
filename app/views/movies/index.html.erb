@@ -1,109 +1,22 @@
 <div class="page_identifier" data-id="index"></div>
-<div class="top_banner">
-	<div class="flixdeck_title">FlixDeck</div>
-	<!-- <a class="go_to_random" href="/">Random</a> -->
-</div>
+<%= render partial: "top_banner" %>
 <div class="movie_index_wrapper">
-	<div class="movie_row" id="comedy_row" data-genre-number="4">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Comedy</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @comedies} %>
-	</div>
-
-	<div class="movie_row" id="action_adventure_row" data-genre-number="6">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Action & Adventure</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @action_advent} %>
-	</div>
-	<div class="movie_row" id="mystery_suspense_row" data-genre-number="5">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Mystery & Suspense</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @mystery} %>
-	</div>
-	<div class="movie_row" id="horror_row" data-genre-number="8">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Horror</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @horror} %>
-	</div>
-	<div class="movie_row" id="ultra_row" data-genre-number="15">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">> 90%</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @ninety} %>
-	</div>
-	<div class="movie_row" id="drama_row" data-genre-number="2">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Drama</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @drama} %>
-	</div>
-	<div class="movie_row" id="romance_row" data-genre-number="3">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Romance</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @romance} %>
-	</div>
-	<div class="movie_row" id="art_international_row" data-genre-number="9">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Art House & International</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @art_international} %>
-	</div>
-	<div class="movie_row" id="science_fantasy_row" data-genre-number="10">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Science Fiction & Fantasy</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @scifi} %>
-	</div>
-	<div class="movie_row" id="animation_row" data-genre-number="11">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Animation</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @animation} %>
-	</div>
-	<div class="movie_row" id="cult_row" data-genre-number="14">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Cult Movies</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @cult} %>
-	</div>
-	<div class="movie_row" id="documentary_row" data-genre-number="7">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Documentary</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @documentary} %>
-	</div>
-	<div class="movie_row" id="classics_row" data-genre-number="13">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Classics</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @classic} %>
-	</div>
-	<div class="movie_row" id="family_row" data-genre-number="12">
-		<div class="left_col_index">
-			<div class="refresh"></div>
-			<div class="row_title">Kids & Family</div>
-		</div>
-		<%= render partial: "shelf", locals: {movies: @kids} %>
-	</div>
+	<%= render partial: "movie_row", locals: {title: "Comedy", :genre_number => 4, :movies => @comedies, :genre_href => "comedy"} %>
+	<%= render partial: "movie_row", locals: {title: "Action & Adventure", :genre_number => 6, :movies => @action_advent, :genre_href => "actionadv"} %>
+	<%= render partial: "movie_row", locals: {title: "Mystery & Suspense", :genre_number => 5, :movies => @mystery, :genre_href => "mysterysuspense"} %>
+	<%= render partial: "movie_row", locals: {title: "Horror", :genre_number => 8, :movies => @horror, :genre_href => "horror"} %>
+	<%= render partial: "movie_row", locals: {title: "> 89%", :genre_number => 15, :movies => @ninety, :genre_href => "ninety"} %>
+	<%= render partial: "movie_row", locals: {title: "Drama", :genre_number => 2, :movies => @drama, :genre_href => "drama"} %>
+	<%= render partial: "movie_row", locals: {title: "Romance", :genre_number => 3, :movies => @romance, :genre_href => "romance"} %>
+	<%= render partial: "movie_row", locals: {title: "Art House & International", :genre_number => 9, :movies => @art_international, :genre_href => "arty"} %>
+	<%= render partial: "movie_row", locals: {title: "Science Fiction & Fantasy", :genre_number => 10, :movies => @scifi, :genre_href => "scifi"} %>
+	<%= render partial: "movie_row", locals: {title: "Animation", :genre_number => 11, :movies => @animation, :genre_href => "animation"} %>
+	<%= render partial: "movie_row", locals: {title: "Cult Movies", :genre_number => 14, :movies => @cult, :genre_href => "cult"} %>
+	<%= render partial: "movie_row", locals: {title: "Documentary", :genre_number => 7, :movies => @documentary, :genre_href => "documentary"} %>
+	<%= render partial: "movie_row", locals: {title: "Classics", :genre_number => 13, :movies => @classic, :genre_href => "classics"} %>
+	<%= render partial: "movie_row", locals: {title: "Kids & Family", :genre_number => 12, :movies => @kids, :genre_href => "family"} %>
 </div>
+
 <div class="movie_card">
 	<%= render partial: "movie_card", locals:{movie: @comedies[0]} %>
 </div>

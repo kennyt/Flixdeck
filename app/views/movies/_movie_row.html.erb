@@ -1,0 +1,11 @@
+<div class="movie_row" data-genre-number="<%= genre_number %>">
+	<div class="left_col_index">
+		<div class="refresh"></div>
+		<% if genre_href == "ninety" %>
+			<div  class="row_title" style="text-decoration:none;"><%= title %></div>
+		<% else %>
+			<a href="/genre/<%= genre_href %>" class="row_title"><%= title %></a>
+		<% end %>
+	</div>
+	<%= render partial: "shelf", locals: {movies: movies} %>
+</div>

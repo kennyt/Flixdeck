@@ -47,6 +47,12 @@ class MoviesController < ApplicationController
     end
 	end
 
+	def all_genre
+		genre = stringToGenre(params[:genre])
+		@genre_title = genre
+		@movies = Movie.get_ordered_genre(200, genre).order('critic_rating')
+	end
+
 	def get_reviews
 		id = params[:rtid]
 		reviews = Movie.get_reviews_hash(id)

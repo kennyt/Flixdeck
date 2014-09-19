@@ -4,4 +4,5 @@ Topofbarrel::Application.routes.draw do
   match '/movie' => 'movies#show'
   match '/movie/get_five' => 'movies#get_five'
   match '/movie/get_reviews' => 'movies#get_reviews'
+  match '/genre/:genre' => 'movies#all_genre'
 end

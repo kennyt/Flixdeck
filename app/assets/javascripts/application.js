@@ -268,6 +268,34 @@ function scaleMargins(){
 	}
 }
 
+function calculatePerShelf(){
+	var width = $(window).width()
+	var spaceUsed = 200;
+	var perShelf = 0;
+	while(spaceUsed < width){
+		perShelf += 1;
+		spaceUsed += 240;
+	}
+
+	return perShelf - 1
+}
+
+function putAllMoviesOntoShelf(perShelf){
+	var movies = $('.hidden_container .poster_container')
+	var shelves = movies.length / perShelf
+	var moviesShelved = 0;
+
+	while(moviesShelved < movies.length){
+		var newShelf = $('<div class="shelf" id="'+moviesShelved+'"></div>')
+		$.each(movies.slice(moviesShelved, moviesShelved + perShelf), function(i, movie){
+			newShelf.append(movie)
+		})
+		$('.genre_movie_container').append(newShelf);
+		moviesShelved += perShelf
+	}
+
+}
+
 $(document).ready(function(){
 
 
@@ -321,7 +349,7 @@ $(document).ready(function(){
 			
 			$(parent).after($('.movie_card'))
 
-			if (!($(currentParent).is('body')) && ($(leavingRow).attr('id') != $(parent).attr('id')) ){
+			if (!($(currentParent).is('body')) && ($(leavingRow).attr('data-genre-number') != $(parent).attr('data-genre-number')) ){
 				$(leavingRow).css('padding-bottom', height + 'px')
 			}
 			
@@ -336,20 +364,6 @@ $(document).ready(function(){
 			$('.movie_card').append($('.triangle'))
 		})
 
-		$('body').on('click', '.close_card', function(ev){
-			$('.movie_card').animate({height: 0}, 500, function(){
-				$('.movie_card').removeAttr('style');
-				$('.movie_card').hide();
-				$('body').append($('.movie_card'))
-			})
-		})
-
-		$('body').on('click', '.refresh', function(ev){
-			var parent = $($('.movie_index_wrapper').children()[$(this).parent().parent().index()]).find('.shelf')
-			getFive(parent);
-			$('.close_card').trigger('click')
-			rotate($(this))
-		})
 
 		scaleMargins();
 		$('.movie_card').hide();
@@ -357,7 +371,58 @@ $(document).ready(function(){
 	}
 
 
+	//genre show only
+	if ($('.page_identifier').attr('data-id') == "all_genre"){
+		$('body').on('click', '.cover_more_info', function(ev){
+			$('.triangle').css({'left': $(this).offset().left + 80, 'top':'-20px'})
+			var currentParent = $('.movie_card').parent()
+			var currentIndex = $('.movie_card').index()
+			var leavingRow = currentParent.children()[currentIndex-1]
+			var parent = $(this).parent().parent()
+			var movie = eleToMovie($(this))
+			var height = $('.movie_card').height()
+			
+			$(parent).after($('.movie_card'))
+
+			if (!($(currentParent).is('body')) && ($(leavingRow).attr('id') != $(parent).attr('id')) ){
+				$(leavingRow).css('padding-bottom', height + 'px')
+			}
+
+			$('.movie_card').show()
+
+			$('body,html').animate({scrollTop: $(parent).offset().top + 110}, 300, function(){
+				$(leavingRow).css('padding-bottom', '0px')
+				$('body').scrollTop($(parent).offset().top + 110)
+			})
+
+			showMovie(movie)
+			$('.movie_card').append($('.triangle'))
+		})
+
+		var perShelf = calculatePerShelf();
+		putAllMoviesOntoShelf(perShelf);
+
+		$('.movie_card').hide();
+		$('.movie_card').append('<div class="close_card">x</div>')
+	}
+
+
 	//no matter what page
+	$('body').on('click', '.close_card', function(ev){
+		$('.movie_card').animate({height: 0}, 500, function(){
+			$('.movie_card').removeAttr('style');
+			$('.movie_card').hide();
+			$('body').append($('.movie_card'))
+		})
+	})
+
+	$('body').on('click', '.refresh', function(ev){
+		var parent = $($('.movie_index_wrapper').children()[$(this).parent().parent().index()]).find('.shelf')
+		getFive(parent);
+		$('.close_card').trigger('click')
+		rotate($(this))
+	})
+
 	$('body').on('click', '.open_bar', function(ev){
 		var synopsis = $('.synopsis')
 		if (synopsis.hasClass('unopened')){

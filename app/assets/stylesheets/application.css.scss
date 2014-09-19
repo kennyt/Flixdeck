@@ -612,14 +612,19 @@ body {
 
 .go_to_random {
 	font-family: arial, helvetica, sans-serif;
-	font-size: 30px;
+	font-size: 20px;
 	font-weight: bold;
-	letter-spacing: -2px;
+	letter-spacing: -1px;
 	position: absolute;
-	left: 720px;
-	top: 60px;
+	left: 460px;
+	top: 64px;
+	border-bottom: 2px solid grey;
 	text-decoration: none;
 	color: black;
+	opacity: .4;
+	&:hover {
+		opacity: 1;
+	}
 }
 
 .page_identifier {
@@ -628,7 +633,7 @@ body {
 
 .movie_row {
 	height: 300px;
-	margin-bottom: 72px;
+	margin-bottom: 50px;
 	/*border-top: 1px solid black;*/
 	margin-left: 200px;
 	/*margin-right: 200px;*/
@@ -688,6 +693,11 @@ body {
 	letter-spacing: -1px;
 	color: #888888;
 	line-height: 0.9;
+	text-decoration: none;
+
+	&:hover{
+		text-decoration: underline;
+	}
 	/*-webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -934,4 +944,35 @@ body {
 	left: 20px;
 	opacity: .8;
 	/*font-weight: bold;*/
+}
+
+.genre_movie_container {
+	/*margin-right: 130px;*/
+	margin-top: 60px;
+	.poster_container {
+		width: 200px;
+		margin-right: 40px;
+		padding-top: 0px;
+	}
+	.play_netflix{
+		margin-top: 0px;
+	}
+	.shelf {
+		margin-left: 200px;
+		margin-bottom: 60px;
+	}
+}
+
+.genre_title {
+	margin-left: 200px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 40px;
+	font-weight: bold;
+	letter-spacing: -3px;
+	line-height: .7;
+	color: #787878;
+}
+
+.hidden_container {
+	display: none;
 }

@@ -1,0 +1,16 @@
+<div class="page_identifier" data-id="all_genre"></div>
+<%= render partial: "top_banner" %>
+
+<div class="genre_title"><%= @genre_title %></div>
+<div class="genre_movie_container">
+</div>
+<div class="hidden_container">
+	<% @movies.each do |movie| %>
+		<%= render partial: "movie_poster", locals: {movie: movie} %>
+	<% end %>
+</div>
+
+<div class="movie_card">
+	<%= render partial: "movie_card", locals:{movie: @movies[0]} %>
+</div>
+<div class="triangle"></div>

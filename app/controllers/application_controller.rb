@@ -66,4 +66,37 @@ class ApplicationController < ActionController::Base
 
   	genre
   end
+
+  def stringToGenre(string)
+    case string
+    when "comedy"
+      genre = "Comedy"
+    when "actionadv"
+      genre = "Action & Adventure"
+    when "mysterysuspense"
+      genre = "Mystery & Suspense"
+    when "horror"
+      genre = "Horror"
+    when "drama"
+      genre = "Drama"
+    when "romance"
+      genre = "Romance"
+    when "arty"
+      genre = "Art House & International"
+    when "scifi"
+      genre = "Science Fiction & Fantasy"
+    when "animation"
+      genre = "Animation"
+    when "cult"
+      genre = "Cult Movies"
+    when "documentary"
+      genre = "Documentary"
+    when "classics"
+      genre = "Classics"
+    when "family"
+      genre = "Kids & Family"
+    end
+
+    genre
+  end
 end
