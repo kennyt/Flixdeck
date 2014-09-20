@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   def movie_to_json(movie)
     {
+      :id => movie.id,
       :genres => movie.genres,
       :cast => movie.cast,
       :director => movie.director,

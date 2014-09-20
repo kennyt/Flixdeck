@@ -139,9 +139,11 @@ function delayTransitionAttr(ele, attr, attrValue, delay){
 function preLoadMovie(callback){
 	var genre = $('.selected_genre').attr('data-genre-number')
 	var minScore = $('.rating_filter').attr('data-min-score')
+	var seen = $('.filter').attr('data-seen');
 	var url = '/movie.json?genre=' + genre + '&minscore=' + minScore
 	$.post(url, function(response){
 		movieHolder.push(response);
+		markSeen(response, $('.filter'))
 		if (callback){
 			callback();
 		}
@@ -179,6 +181,8 @@ function playMovie(movieHolder, currentGenre){
 
 function eleToMovie(ele){
 	var movie = {}
+
+	movie["id"] = ele.attr('data-id')
 	movie["genres"] = ele.attr('data-genres')
 	movie["cast"] = ele.attr('data-cast')
 	movie["director"] = ele.attr('data-directors')
@@ -205,6 +209,7 @@ function eleToMovie(ele){
 }
 
 function movieToEle(movie, ele){
+	ele.attr('data-id', movie["id"])
 	ele.attr('data-genres', movie["genres"])
 	ele.attr('data-cast', movie["cast"])
 	ele.attr('data-directors', movie["director"])
@@ -225,12 +230,12 @@ function movieToEle(movie, ele){
 	ele.parent().find('.poster').attr('src', movie["poster"])
 }
 
-function getFive(movieRow){
+function getFive(movieRow, callback){
 	var genreNum = $(movieRow).parent().attr('data-genre-number')
-	console.log(genreNum)
-	$.post('/movie/get_five.json?genre='+genreNum, function(response){
+	var seen = $(movieRow).parent().attr('data-seen');
+	var url = '/movie/get_five.json?genre='+genreNum + '&seen=' + seen
+	$.post(url, function(response){
 		var movies = response["movies"]
-		console.log(response)
 		$.each(movies, function(i, movie){
 			setTimeout(function(){
 				$(movieRow.children()[i]).fadeOut(150)
@@ -240,7 +245,14 @@ function getFive(movieRow){
 				}, 150)
 			}, i * 150)
 		})
+
+		setTimeout(function(){
+			if (callback){
+				callback();
+			}
+		}, movies.length * 350)
 	})
+
 }
 
 function transitionMovieShelf(movieRow, movie, i){
@@ -295,6 +307,31 @@ function putAllMoviesOntoShelf(perShelf){
 	}
 
 }
+
+function allRowsMarkSeen(rows){
+	$.each(rows, function(i, row){
+		rowMarkSeen(row);
+	})
+}
+
+function markSeen(movie, row){
+	var seenIds = $(row).attr('data-seen') ? $(row).attr('data-seen') + "a" : ""
+
+	if ($(movie).attr('data-id') == undefined){
+		seenIds = seenIds + movie["id"]
+	} else {
+		seenIds = seenIds + $(movie).attr('data-id')
+	}
+	
+	$(row).attr('data-seen', seenIds)
+}
+
+function rowMarkSeen(row){
+	$.each($(row).find('.cover_more_info'), function(i, movie){
+		markSeen(movie, row);
+	})
+}
+
 
 $(document).ready(function(){
 
@@ -366,6 +403,7 @@ $(document).ready(function(){
 
 
 		scaleMargins();
+		allRowsMarkSeen($('.movie_row'));
 		$('.movie_card').hide();
 		$('.movie_card').append('<div class="close_card">x</div>')
 	}
@@ -418,7 +456,9 @@ $(document).ready(function(){
 
 	$('body').on('click', '.refresh', function(ev){
 		var parent = $($('.movie_index_wrapper').children()[$(this).parent().parent().index()]).find('.shelf')
-		getFive(parent);
+		getFive(parent, function(){
+			rowMarkSeen(parent.parent());
+		});
 		$('.close_card').trigger('click')
 		rotate($(this))
 	})
