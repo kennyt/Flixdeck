@@ -238,12 +238,12 @@ function getFive(movieRow, callback){
 		var movies = response["movies"]
 		$.each(movies, function(i, movie){
 			setTimeout(function(){
-				$(movieRow.children()[i]).fadeOut(150)
+				$(movieRow.children().get().reverse()[i]).fadeOut(80)
 				setTimeout(function(){
 					transitionMovieShelf(movieRow, movie, i)
-					$(movieRow.children()[i]).fadeIn(150)
-				}, 150)
-			}, i * 150)
+					$(movieRow.children().get().reverse()[i]).fadeIn(80)
+				}, 80)
+			}, i * 80)
 		})
 
 		setTimeout(function(){
@@ -256,7 +256,7 @@ function getFive(movieRow, callback){
 }
 
 function transitionMovieShelf(movieRow, movie, i){
-	var oldMovie = $($(movieRow.children()[i]).find('.cover_more_info'))
+	var oldMovie = $($(movieRow.children().get().reverse()[i]).find('.cover_more_info'))
 	movieToEle(movie, oldMovie)
 }
 
@@ -322,7 +322,7 @@ function markSeen(movie, row){
 	} else {
 		seenIds = seenIds + $(movie).attr('data-id')
 	}
-	
+
 	$(row).attr('data-seen', seenIds)
 }
 
@@ -442,6 +442,8 @@ $(document).ready(function(){
 
 		$('.movie_card').hide();
 		$('.movie_card').append('<div class="close_card">x</div>')
+		$('.top_banner').css('margin-left','100px')
+		$('.go_to_random').css('left','460px')
 	}
 
 
@@ -455,7 +457,7 @@ $(document).ready(function(){
 	})
 
 	$('body').on('click', '.refresh', function(ev){
-		var parent = $($('.movie_index_wrapper').children()[$(this).parent().parent().index()]).find('.shelf')
+		var parent = $($('.movie_index_wrapper').children()[$(this).parent().index()]).find('.shelf')
 		getFive(parent, function(){
 			rowMarkSeen(parent.parent());
 		});

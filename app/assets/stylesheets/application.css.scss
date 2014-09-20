@@ -153,14 +153,14 @@ body {
 	font-family: arial, helvetica, sans-serif;
 	font-size: 55px;
 	font-weight: bold;
-	letter-spacing: -5px;
+	letter-spacing: -4px;
 	line-height: 1.1;
 	margin-top: 10px;
 }
 
 .synopsis {
 	font-family: arial, helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 16px;
 	line-height: 1.3;
 	height: 174px;
 	/*max-height: 100px;*/
@@ -603,9 +603,9 @@ body {
 .flixdeck_title {
 	font-family: arial, helvetica, sans-serif;
 	font-size: 60px;
-	font-weight: bold;
+	/*font-weight: bold;*/
 	letter-spacing: -4px;
-	margin-left: 200px;
+	margin-left: 100px;
 	margin-top: 40px;
 	line-height: 1;
 	display: block;
@@ -613,7 +613,8 @@ body {
 	color: #383838;
 	width: 230px;
 	&:hover {
-		text-decoration: underline;
+		color: #e74c3c;
+		/*text-decoration: underline;*/
 	}
 }
 
@@ -623,7 +624,7 @@ body {
 	font-weight: bold;
 	letter-spacing: -1px;
 	position: absolute;
-	left: 460px;
+	left: 360px;
 	top: 64px;
 	border-bottom: 2px solid grey;
 	text-decoration: none;
@@ -640,11 +641,22 @@ body {
 
 .movie_row {
 	height: 300px;
-	margin-bottom: 50px;
+	margin-top: 110px;
+	margin-bottom: 25px;
 	/*border-top: 1px solid black;*/
-	margin-left: 200px;
-	/*margin-right: 200px;*/
+	margin-left: 100px;
+	padding-right: 100px;
 	position: relative;
+	max-width: 1400px;
+	&:hover{
+		.refresh{
+			opacity: .57;
+		}
+		/*background: #D8D8D8;
+		.left_col_index {
+			background: #D8D8D8;
+		}*/
+	}
 }
 
 .top_banner {
@@ -652,9 +664,10 @@ body {
 }
 
 .left_col_index {
-	left: -200px;
-	height: 300px;
-	width: 200px;
+	left: 0px;
+	height: 35px;
+	width: 300px;
+	top: -35px;
 	position: absolute;
 	&:hover{
 		.refresh{
@@ -674,12 +687,12 @@ body {
 	background-position: center;
 	background-repeat: no-repeat;
 	position: absolute;
-	left: 20px;
-	top: 160px;
+	right: 40px;
+	top: 90px;
 	border-radius: 50%;
 	border: 5px solid black;
 	cursor: pointer;
-	opacity: .13;
+	opacity: 0;
 
 	-webkit-transition: all 350ms ease-out;
   -moz-transition: all 350ms ease-out;
@@ -695,8 +708,8 @@ body {
 .row_title {
 	/*border-right: 1px solid grey;*/
 	position: absolute;
-	top: 100px;
-	left: 20px;
+	bottom: 5px;
+	/*right: -100px;*/
 	font-family: arial, helvetica, sans-serif;
 	font-size: 22px;
 	font-weight: bold;
@@ -706,7 +719,7 @@ body {
 	text-decoration: none;
 
 	&:hover{
-			text-decoration: underline;
+		text-decoration: underline;
 	}
 	/*-webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -1005,4 +1018,8 @@ body {
 		text-decoration: underline;
 		opacity: 1;
 	}
+}
+
+.movie_index_wrapper {
+	margin-top: -80px;
 }
