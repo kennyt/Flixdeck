@@ -194,9 +194,13 @@ class Movie < ActiveRecord::Base
 		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ? and id NOT IN (?)", 59, 20, genre, seen]).order("RANDOM()").limit(num)
 	end
 
-	def self.get_ordered_genre(num, genre)
+	def self.get_ordered_genre(num, genre, order)
 		genre = "%#{genre}%"
-		Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ?", 59, 14, genre]).order("critic_rating DESC").limit(num)
+		if order == "audience_rating"
+			Movie.where(["review_count > ? and genres LIKE ? and year > ?", 10, genre, 1969]).order(order + " DESC").limit(num)
+		else
+			Movie.where(["critic_rating > ? and review_count > ? and genres LIKE ? and year > ?", 59, 10, genre, 1969]).order(order + " DESC").limit(num)
+		end
 	end
 
 	def self.get_ultra(num)

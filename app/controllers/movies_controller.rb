@@ -13,7 +13,6 @@ class MoviesController < ApplicationController
 		@cult = Movie.get_genre(5, "Cult Movies")
 		@documentary = Movie.get_genre(5, "Documentary")
 		@classic = Movie.get_genre(5, "Classics")
-		@kids = Movie.get_genre(5, "Kids & Family")
 	end
 
 	def show
@@ -56,7 +55,16 @@ class MoviesController < ApplicationController
 	def all_genre
 		genre = stringToGenre(params[:genre])
 		@genre_title = genre
-		@movies = Movie.get_ordered_genre(200, genre).order('critic_rating')
+		if params[:sortby] == "aud"
+			@movies = Movie.get_ordered_genre(250, genre, 'audience_rating')
+		else
+			@movies = Movie.get_ordered_genre(250, genre, 'critic_rating')
+		end
+		p "###zzzzzzzzzzzzzzzzzz###" + params[:sortby].to_s
+		respond_to do |format|
+      format.html
+      format.json { render :json => movies_to_json(@movies) }
+    end
 	end
 
 	def get_reviews

@@ -714,7 +714,7 @@ body {
 	font-size: 22px;
 	font-weight: bold;
 	letter-spacing: -1px;
-	color: #888888;
+	color: #606060;
 	line-height: 1.1;
 	text-decoration: none;
 
@@ -732,6 +732,18 @@ body {
 	width: 24px;
 	height: 24px;
 	background-image: url('fresh_tomato.png');
+	background-size: 20px 20px;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: .9;
+	position: absolute;
+	left: 4px;
+}
+
+.mini_popcorn {
+	width: 24px;
+	height: 24px;
+	background-image: url('fresh_popcorn.png');
 	background-size: 20px 20px;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -981,13 +993,14 @@ body {
 		margin-top: 0px;
 	}
 	.shelf {
-		margin-left: 200px;
+		margin-left: 100px;
+		margin-right: 60px;
 		margin-bottom: 60px;
 	}
 }
 
 .genre_title {
-	margin-left: 200px;
+	margin-left: 100px;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 40px;
 	font-weight: bold;
@@ -1022,4 +1035,36 @@ body {
 
 .movie_index_wrapper {
 	margin-top: -80px;
+}
+
+.sort_by_holder {
+	font-weight: normal;
+	letter-spacing: -1px;
+	margin-left: 118px;
+	font-size: 22px;
+	color: #A0A0A0;
+}
+
+.sort_by {
+	font-size: 26px;
+	margin-left: 20px;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	opacity: .8;
+	color: #787878;
+	&:hover{
+		background:#E0E0E0;
+	}
+
+	-webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+.current_sort {
+	background: #e74c3c !important;
+	color: white;
 }

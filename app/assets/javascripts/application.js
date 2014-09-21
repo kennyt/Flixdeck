@@ -208,7 +208,7 @@ function eleToMovie(ele){
 	return movie
 }
 
-function movieToEle(movie, ele){
+function movieToEle(movie, ele, shownRating){
 	ele.attr('data-id', movie["id"])
 	ele.attr('data-genres', movie["genres"])
 	ele.attr('data-cast', movie["cast"])
@@ -226,8 +226,9 @@ function movieToEle(movie, ele){
 	ele.attr('data-poster', movie["poster"])
 	ele.attr('data-year', movie["year"])
 
-	ele.parent().find('.corner_rating').html(movie["critic_rating"])
+	ele.parent().find('.corner_rating').html(movie[shownRating])
 	ele.parent().find('.poster').attr('src', movie["poster"])
+	return $(ele).parent();
 }
 
 function getFive(movieRow, callback){
@@ -257,7 +258,7 @@ function getFive(movieRow, callback){
 
 function transitionMovieShelf(movieRow, movie, i){
 	var oldMovie = $($(movieRow.children().get().reverse()[i]).find('.cover_more_info'))
-	movieToEle(movie, oldMovie)
+	movieToEle(movie, oldMovie, "critic_rating")
 }
 
 function scaleMargins(){
@@ -282,7 +283,7 @@ function scaleMargins(){
 
 function calculatePerShelf(){
 	var width = $(window).width()
-	var spaceUsed = 200;
+	var spaceUsed = 160;
 	var perShelf = 0;
 	while(spaceUsed < width){
 		perShelf += 1;
@@ -330,6 +331,35 @@ function rowMarkSeen(row){
 	$.each($(row).find('.cover_more_info'), function(i, movie){
 		markSeen(movie, row);
 	})
+}
+
+function skeletonMovie(mini_icon){
+	var container = $('<div>').attr('class', 'poster_container');
+	var poster = $('<img>').attr('class','poster');
+	var rt_corner = $('<div>').attr('class', 'rt_corner');
+	var icon = $('<div>').attr('class', mini_icon);
+	var corner_rating = $('<div>').attr('class', 'corner_rating');
+	var cover_info = $('<div>').attr('class', 'cover_more_info');
+	$(rt_corner).append(icon);
+	$(rt_corner).append(corner_rating);
+	$(container).append(poster);
+	$(container).append(rt_corner);
+	$(container).append(cover_info);
+	return $(container)
+}
+
+function restartGenreShow(movies, iconClass, shownRating){
+	$('.genre_movie_container').empty();
+	$('.hidden_container').empty();
+
+	$.each(movies, function(i, movie){
+		var skeleton = skeletonMovie(iconClass);
+		var posterEle = movieToEle(movie, skeleton.find('.cover_more_info'), shownRating);
+		$('.hidden_container').append(posterEle);
+	})
+
+	var perShelf = calculatePerShelf();
+	putAllMoviesOntoShelf(perShelf);
 }
 
 
@@ -437,13 +467,39 @@ $(document).ready(function(){
 			$('.movie_card').append($('.triangle'))
 		})
 
+		$('body').on('click', '.sort_by', function(ev){
+			if (!($(this).hasClass('current_sort'))){
+				ev.stopPropagation();
+				ev.preventDefault();
+
+				var that = this;
+				var sortBy = $(this).attr('data-by');
+				var genre = document.URL.split('/g/')[1]
+				var url = '/g/' + genre + '.json?sortby=' + sortBy
+				var iconClass
+				var shownRating
+
+				if (sortBy == "aud"){
+					iconClass = "mini_popcorn";
+					shownRating = "audience_rating";
+				} else {
+					iconClass = "mini_tomato";
+					shownRating = "critic_rating";
+				}
+
+				$.post(url, function(response){
+					restartGenreShow(response["movies"], iconClass, shownRating)
+					$('.current_sort').removeClass('current_sort');
+					$(that).addClass('current_sort');
+				})
+			}
+		})
+
 		var perShelf = calculatePerShelf();
 		putAllMoviesOntoShelf(perShelf);
 
 		$('.movie_card').hide();
 		$('.movie_card').append('<div class="close_card">x</div>')
-		$('.top_banner').css('margin-left','100px')
-		$('.go_to_random').css('left','460px')
 	}
 
 
