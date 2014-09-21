@@ -233,8 +233,9 @@ function movieToEle(movie, ele, shownRating){
 
 function getFive(movieRow, callback){
 	var genreNum = $(movieRow).parent().attr('data-genre-number')
-	var seen = $(movieRow).parent().attr('data-seen');
+	var seen = $(movieRow).parent().find('.refresh').attr('data-seen');
 	var url = '/movie/get_five.json?genre='+genreNum + '&seen=' + seen
+	console.log(seen);
 	$.post(url, function(response){
 		var movies = response["movies"]
 		$.each(movies, function(i, movie){
@@ -329,7 +330,7 @@ function markSeen(movie, row){
 
 function rowMarkSeen(row){
 	$.each($(row).find('.cover_more_info'), function(i, movie){
-		markSeen(movie, row);
+		markSeen(movie, $(row).find('.refresh'));
 	})
 }
 
