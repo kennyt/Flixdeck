@@ -10,7 +10,6 @@ class MoviesController < ApplicationController
 		@art_international = Movie.get_genre(5, "Art House & International")
 		@scifi = Movie.get_genre(5, "Science Fiction & Fantasy")
 		@animation = Movie.get_genre(5, "Animation")
-		@cult = Movie.get_genre(5, "Cult Movies")
 		@documentary = Movie.get_genre(5, "Documentary")
 		@classic = Movie.get_genre(5, "Classics")
 	end

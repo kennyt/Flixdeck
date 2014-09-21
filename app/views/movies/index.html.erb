@@ -3,16 +3,15 @@
 <div class="movie_index_wrapper">
 	<%= render partial: "movie_row", locals: {title: "Comedy", :genre_number => 4, :movies => @comedies, :genre_href => "comedy"} %>
 	<%= render partial: "movie_row", locals: {title: "Action & Adventure", :genre_number => 6, :movies => @action_advent, :genre_href => "actionadv"} %>
+	<%= render partial: "movie_row", locals: {title: "Science Fiction & Fantasy", :genre_number => 10, :movies => @scifi, :genre_href => "scifi"} %>
 	<%= render partial: "movie_row", locals: {title: "Mystery & Suspense", :genre_number => 5, :movies => @mystery, :genre_href => "mysterysuspense"} %>
-	<%= render partial: "movie_row", locals: {title: "Horror", :genre_number => 8, :movies => @horror, :genre_href => "horror"} %>
 	<%= render partial: "movie_row", locals: {title: "> 89%", :genre_number => 15, :movies => @ninety, :genre_href => "ninety"} %>
+	<%= render partial: "movie_row", locals: {title: "Horror", :genre_number => 8, :movies => @horror, :genre_href => "horror"} %>
 	<%= render partial: "movie_row", locals: {title: "Drama", :genre_number => 2, :movies => @drama, :genre_href => "drama"} %>
+	<%= render partial: "movie_row", locals: {title: "Documentary", :genre_number => 7, :movies => @documentary, :genre_href => "documentary"} %>
 	<%= render partial: "movie_row", locals: {title: "Romance", :genre_number => 3, :movies => @romance, :genre_href => "romance"} %>
 	<%= render partial: "movie_row", locals: {title: "Art House & Foreign", :genre_number => 9, :movies => @art_international, :genre_href => "arty"} %>
-	<%= render partial: "movie_row", locals: {title: "Science Fiction & Fantasy", :genre_number => 10, :movies => @scifi, :genre_href => "scifi"} %>
 	<%= render partial: "movie_row", locals: {title: "Animation", :genre_number => 11, :movies => @animation, :genre_href => "animation"} %>
-	<%= render partial: "movie_row", locals: {title: "Cult Movies", :genre_number => 14, :movies => @cult, :genre_href => "cult"} %>
-	<%= render partial: "movie_row", locals: {title: "Documentary", :genre_number => 7, :movies => @documentary, :genre_href => "documentary"} %>
 	<%= render partial: "movie_row", locals: {title: "Classics", :genre_number => 13, :movies => @classic, :genre_href => "classics"} %>
 </div>
 
