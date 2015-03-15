@@ -89,7 +89,7 @@ class Movie < ActiveRecord::Base
     if response.css('#scoreStats div').length == 0
       return 0
     else
-      return response.css('#scoreStats div')[1].children[2].text.strip
+      return response.css('#scoreStats div')[1].children[3].text.strip
     end
   end
 
