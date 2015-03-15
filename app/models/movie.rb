@@ -5,30 +5,53 @@ class Movie < ActiveRecord::Base
 	require 'cgi'
 
   def self.generate_database
-		page = 1
-		total_movies = 2820
-		cookie = get_cookie
+		total_movies = get_total
+	  data = get_data(total_movies)
 
-		until page > total_movies/20
-	  	data = get_data(cookie, page)
-		  data.each do |key, value|
-		  	if movie_list?(key)
-		  		value.each{|movie| add_netflixsource(movie)}
-		  	end
-		  end
-
-		  page += 1
-		  sleep(1)
-		end
+	  data.each do |movie|
+      next if exists?(movie)
+      movie = make_or_update(movie)
+      give_attribute_full(movie)
+      scrape_individual(movie)
+	  end
 	end
+
+  def self.exists?(movie)
+    return !Movie.find_by_rotten_tomatoes_id(movie["id"]).nil?
+  end
+
+  def self.make_or_update(movie)
+    if Movie.find_by_rotten_tomatoes_id(movie["id"]).nil?
+      return create_new_movie(movie)
+    else
+      return Movie.find_by_rotten_tomatoes_id(movie["id"])
+    end
+  end
 
 	def self.create_new_movie(movie)
 		current_movie = Movie.new
 		movie.each do |key, value|
 			give_attribute(key, value, current_movie)
 		end
-		current_movie.save!
+    return current_movie
 	end
+
+  def self.give_attribute(key, value, movie)
+    case key
+    when "id"
+      movie.rotten_tomatoes_id = value
+    when "title"
+      movie.title = value
+    when "mpaaRating"
+      movie.mpaa = value
+    when "popcornScore"
+      movie.audience_rating = value
+    when "tomatoScore"
+      movie.critic_rating = value
+    when "posters"
+      movie.poster = value["primary"]
+    end
+  end
 
 	def self.add_netflixsource(movie)
 		old_movie = Movie.find_by_rotten_tomatoes_id(movie["id"])
@@ -36,36 +59,66 @@ class Movie < ActiveRecord::Base
 		old_movie.save!
 	end
 
-	def self.scrape_all_movies()
-		Movie.find_each(:start => 1050) do |movie|
-			scrape_individual(movie)
-		end
-	end
+	# def self.scrape_all_movies()
+	# 	Movie.find_each(:start => 1050) do |movie|
+	# 		scrape_individual(movie)
+	# 	end
+	# end
 
 	def self.scrape_individual(movie)
 		movie_id = movie.rotten_tomatoes_id
+
+    #duct tape code due to rottentomatoes' bugs
 		movie_id = "enron_the_smartest_guys_in_the_room/" if movie_id == 24
+    movie_id = "1144992-crash/" if movie_id == 12
+
+    #test 771374347
 		response = Nokogiri::HTML(open("http://www.rottentomatoes.com/m/#{movie_id}"))
-		poster = response.css('img.pinterestImage')[0].nil? ? nil : response.css('img.pinterestImage')[0]['src']
 
-		movie.update_attributes(:poster => poster)
-		sleep(0.3)
+    movie.netflixsource = get_netflixsource(response)
+    movie.synopsis = get_synopsis(response)
+    movie.poster = get_poster(response)
+    movie.critic_consensus = get_critic_consensus(response)
+    num_of_reviews = get_num_reviews(response)
+    movie.review_count = num_of_reviews.to_i unless num_of_reviews.nil?
+
+    movie.save!
 	end
 
-	def self.get_synopsis_consensus_reviews
-		synopsis = get_synopsis(response)
-		critic_consensus = response.css('p.critic_consensus').length == 0 ? 'No consensus.' : response.css('p.critic_consensus')[0].text
-		num_of_reviews = response.css('p.critic_stats span').select{|stat| stat["itemprop"] == "reviewCount"}[0]
-		num_of_reviews = num_of_reviews.text.to_i unless num_of_reviews.nil?
-	end
+  def self.get_num_reviews(response)
+    if response.css('#scoreStats div').length == 0
+      return 0
+    else
+      return response.css('#scoreStats div')[1].children[2].text.strip
+    end
+  end
+
+  def self.get_critic_consensus(response)
+    if response.css('p.critic_consensus')[0].nil?
+      return 'No consensus yet.'
+    else
+      return response.css('p.critic_consensus')[0].children[2].text.strip
+    end
+  end
+
+  def self.get_netflixsource(response)
+    if response.css('.streamNow').length == 0
+      return ''
+    else
+      return response.css('.streamNow')[0]["href"].split('/WiMovie/')[1]
+    end
+  end
+
+  def self.get_poster(response)
+    response.css('div#topSection img[itemprop="image"]')[0].nil? ? nil : response.css('div#topSection img[itemprop="image"]')[0]["src"]
+  end
 
 	def self.get_synopsis(response)
-		if response.css('span#movieSynopsisRemaining').length == 0
-			synopsis = iconvnize(response.css('p#movieSynopsis.movie_synopsis').text.strip)
-		else
-			first_synopsis = iconvnize(response.css('p#movieSynopsis.movie_synopsis').text).split('$(')[0]
-			second_synopsis = iconvnize(response.css('span#movieSynopsisRemaining').text)
-			synopsis = first_synopsis.gsub(second_synopsis,'').strip + ' ' + second_synopsis.strip
+    synopsis = iconvnize(response.css('#movieSynopsis').children[0].text).strip
+
+		unless response.css('#movieSynopsisRemaining').length == 0
+			second_synopsis = iconvnize(response.css('#movieSynopsisRemaining').children[0].text).strip
+			synopsis = synopsis + ' ' + second_synopsis
 		end
 
 		synopsis
@@ -76,44 +129,34 @@ class Movie < ActiveRecord::Base
 		ic.iconv(text << ' ')[0..-2]
 	end
 
-	def self.get_cookie
-		response = open('http://www.rottentomatoes.com/dvd/netflix/#endyear=2014&exclude_rated=true&genres=1%3B2%3B4%3B5%3B6%3B8%3B9%3B10%3B11%3B12%3B18%3B14&maxtomato=100&mintomato=0&mpaa_max=6&mpaa_min=1&startyear=1920&wts_only=false')
-		response.meta['set-cookie']
-	end
+	# def self.get_cookie
+	# 	response = open('http://www.rottentomatoes.com/dvd/netflix/#endyear=2014&exclude_rated=true&genres=1%3B2%3B4%3B5%3B6%3B8%3B9%3B10%3B11%3B12%3B18%3B14&maxtomato=100&mintomato=0&mpaa_max=6&mpaa_min=1&startyear=1920&wts_only=false')
+	# 	response.meta['set-cookie']
+	# end
 
-	def self.get_data(cookie, page)
-		p2 = open("http://www.rottentomatoes.com/api/private/v1.0/list/movies/netflix/?title=&celeb=&genre=1%3B2%3B4%3B5%3B6%3B8%3B9%3B10%3B11%3B12%3B18%3B14&minrating=1&maxrating=6&mintomato=0&maxtomato=100&minyear=1920&maxyear=2014&excludemymovies=true&wtsonly=false&sorttomato=false&page=#{page}",
-          'Cookie' => cookie)
+	def self.get_data(total)
+		p2 = open("http://www.rottentomatoes.com/api/private/v1.0/m/list/find?minTomato=60&page=1&limit=#{total}&type=dvd-all&services=netflix_iw&sortBy=release")
   	json = p2.read
-  	JSON.parse(json)
+  	JSON.parse(json)["results"]
 	end
 
-	def self.movie_list?(key)
-		key == "movies"
-	end
+  def self.get_total
+    p2 = open("http://www.rottentomatoes.com/api/private/v1.0/m/list/find?minTomato=60&page=1&limit=30&type=dvd-all&services=netflix_iw&sortBy=release")
+    json = p2.read
+    JSON.parse(json)["counts"]["total"]
+  end
 
-	def self.give_attribute(key, value, movie)
-		case key
-		when "id"
-			movie.rotten_tomatoes_id = value
-		when "title"
-			movie.title = value
-		when "netflixsource"
-			movie.netflixsource = value.split('/movies/')[1]
-		end
-	end
-
-	def self.fill_info_from_RT_api
-		Movie.all.each do |movie|
-			give_attribute_full(movie)
-			sleep(1.1)
-		end
-	end
+	# def self.fill_info_from_RT_api
+	# 	Movie.all.each do |movie|
+	# 		give_attribute_full(movie)
+	# 		sleep(1.1)
+	# 	end
+	# end
 
 	def self.give_attribute_full(movie)
 		apikey = "5r8xr8cqaw9y3a2dhhtz2q7f"
 		movie_id = movie.rotten_tomatoes_id
-		response = open("http://api.rottentomatoes.com/api/public/v1.0/movies/#{movie_id}.json?apikey=#{apikey}").read
+		response = open("http://api.rottentomatoes.com/api/public/v1.0/movies/#{movie.rotten_tomatoes_id}.json?apikey=#{apikey}").read
   	attributes = JSON.parse(response)
 
   	attributes.each do |key, value|
@@ -147,7 +190,7 @@ class Movie < ActiveRecord::Base
   		end
   	end
 
-  	movie.save!
+  	return movie
 	end
 
 	def self.get_reviews_hash(movie_id)
@@ -173,11 +216,11 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	def self.fill_out_dummies
-		Movie.find_each do |movie|
-			movie.update_attributes(:runtime => 135, :critic_rating => 83, :audience_rating => 91, :critic_consensus => "A subversive and deft film. Will please moviegoers who are looking for art with their action. Also with flawless acting from Michael Bay, Tarantino, and De Niro.", :synopsis => "The success this underdog comedy from director Michael Ritchie almost single-handedly spawned the kids' sports film boom of the 1980s and '90s. When beer-breathed ex-minor-league ball player and professional pool cleaner Morris Buttermaker (Walter Matthau) agrees to coach a little league team in the San Fernando Valley, he soon finds he's in over his head, having inherited an assortment of pint-sized peons and talentless losers. They play well-organized teams and lose by tremendous margins, and the parents threaten to disband the Bears to save the kids (and themselves) any further embarrassment. Buttermaker refuses, though, and brings in a pair of ringers: Amanda (Tatum O'Neal), his ex-girlfriend's tomboy daughter, and Kelly (Jackie Earle Haley), a cigarette-smoking delinquent who happens to be a gifted athlete. With their help, the Bears manage to change their losing ways and qualify for the championship, where they face their arch-rivals, the Yankees. ~ Jeremy Beday, Rovi", :mpaa => "R", :netflixsource => "60021989", :poster => "http://content8.flixster.com/movie/11/17/81/11178198_det.jpg", :cast => "Michael Bay, De Niro, Quentin Tarantino, Tom Hanks", :director => "Paul Thomas Anderson", :genres => "Comedy, Action" )
-		end
-	end
+	# def self.fill_out_dummies
+	# 	Movie.find_each do |movie|
+	# 		movie.update_attributes(:runtime => 135, :critic_rating => 83, :audience_rating => 91, :critic_consensus => "A subversive and deft film. Will please moviegoers who are looking for art with their action. Also with flawless acting from Michael Bay, Tarantino, and De Niro.", :synopsis => "The success this underdog comedy from director Michael Ritchie almost single-handedly spawned the kids' sports film boom of the 1980s and '90s. When beer-breathed ex-minor-league ball player and professional pool cleaner Morris Buttermaker (Walter Matthau) agrees to coach a little league team in the San Fernando Valley, he soon finds he's in over his head, having inherited an assortment of pint-sized peons and talentless losers. They play well-organized teams and lose by tremendous margins, and the parents threaten to disband the Bears to save the kids (and themselves) any further embarrassment. Buttermaker refuses, though, and brings in a pair of ringers: Amanda (Tatum O'Neal), his ex-girlfriend's tomboy daughter, and Kelly (Jackie Earle Haley), a cigarette-smoking delinquent who happens to be a gifted athlete. With their help, the Bears manage to change their losing ways and qualify for the championship, where they face their arch-rivals, the Yankees. ~ Jeremy Beday, Rovi", :mpaa => "R", :netflixsource => "60021989", :poster => "http://content8.flixster.com/movie/11/17/81/11178198_det.jpg", :cast => "Michael Bay, De Niro, Quentin Tarantino, Tom Hanks", :director => "Paul Thomas Anderson", :genres => "Comedy, Action" )
+	# 	end
+	# end
 
 	def self.get_random(genre, min_score, seen = [0])
 		min_score -= 1

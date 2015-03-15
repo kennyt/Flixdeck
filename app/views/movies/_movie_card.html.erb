@@ -3,7 +3,11 @@
 		<div class="left_col">
 			<div class="poster_container">
 				<img class="poster" src="<%= movie.poster %>">
-				<a class="play_netflix" href="http://www.netflix.com/WiMovie/<%= movie.netflixsource %>"><div class="play_button"></div></a>
+				<% if movie.netflixsource.length == 0 %>
+					<a class="play_netflix" href="http://www.netflix.com/search/<%= movie.title %>"><div class="play_button"></div></a>
+				<% else %>
+					<a class="play_netflix" href="http://www.netflix.com/WiMovie/<%= movie.netflixsource %>"><div class="play_button"></div></a>
+				<% end %>
 			</div>
 			<div class="under_poster">
 				<div class="genres"><span class="people_lead">Genre</span> <span class="people" id="genres"><%= @genres %></span></div>

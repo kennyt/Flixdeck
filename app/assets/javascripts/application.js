@@ -80,35 +80,39 @@ function peopleLinkHtml(people){
 }
 
 function showMovie(movie){
-  delayTransitionAttr($('.whitewrap .poster'), 'src', movie["poster"], 0)
-  delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20)
-  delayTransitionHtml($('#directors'), peopleLinkHtml(movie["director"]), 40)
-  delayTransitionHtml($('#cast'), peopleLinkHtml(movie["cast"]), 60)
-  delayTransitionHtml($('#critic_score'), movie["critic_rating"] + '<span class="small">%</span>', 60)
-  delayTransitionHtml($('.critic_tomato'), false, 50)
-  delayTransitionHtml($('#review_count'), movie["review_count"] + ' critic reviews', 50)
-  delayTransitionHtml($('#audience_score'), movie["audience_rating"] + '<span class="small">%</span>', 100)
-  delayTransitionAttr($('#popcorn_bucket'), 'class', "rating_holder " + movie["audience_class"], 100)
-  delayTransitionHtml($('.film_title'), movie['title'], 150)
-  delayTransitionHtml($('.year_release'), movie['year'], 200)
-  delayTransitionHtml($('.runtime'), movie["runtime"] + 'min', 250)
-  delayTransitionHtml($('.mpaa'), movie["mpaa"], 300)
+  delayTransitionAttr($('.whitewrap .poster'), 'src', movie["poster"], 0);
+  delayTransitionHtml($('#genres'), movie["genres"].split(',').join(', '), 20);
+  delayTransitionHtml($('#directors'), peopleLinkHtml(movie["director"]), 40);
+  delayTransitionHtml($('#cast'), peopleLinkHtml(movie["cast"]), 60);
+  delayTransitionHtml($('#critic_score'), movie["critic_rating"] + '<span class="small">%</span>', 60);
+  delayTransitionHtml($('.critic_tomato'), false, 50);
+  delayTransitionHtml($('#review_count'), movie["review_count"] + ' critic reviews', 50);
+  delayTransitionHtml($('#audience_score'), movie["audience_rating"] + '<span class="small">%</span>', 100);
+  delayTransitionAttr($('#popcorn_bucket'), 'class', "rating_holder " + movie["audience_class"], 100);
+  delayTransitionHtml($('.film_title'), movie['title'], 150);
+  delayTransitionHtml($('.year_release'), movie['year'], 200);
+  delayTransitionHtml($('.runtime'), movie["runtime"] + 'min', 250);
+  delayTransitionHtml($('.mpaa'), movie["mpaa"], 300);
   delayTransitionHtml($('.synopsis'), movie["synopsis"], 350, function(){
     checkIfOpenBarNeeded($('.synopsis'))
-  })
-  delayTransitionHtml($('.consensus_header'), false, 460)
-  delayTransitionHtml($('.critic_consensus'), '"' + movie["critic_consensus"] + '"', 500)
-  delayTransitionHtml($('.big_tomato'), false, 500)
+  });
+  delayTransitionHtml($('.consensus_header'), false, 460);
+  delayTransitionHtml($('.critic_consensus'), '"' + movie["critic_consensus"] + '"', 500);
+  delayTransitionHtml($('.big_tomato'), false, 500);
 
   setTimeout(function(){
     $('.get_reviews').fadeIn(100);
-    $('.individual_reviews').empty()
+    $('.individual_reviews').empty();
   }, 520)
 
-  $('.rating_container').attr('data-rotten-tomatoes-id', movie["rotten_tomatoes_id"])
-  $('.play_netflix').attr('href', "http://www.netflix.com/WiMovie/" + movie["netflixsource"])
+  $('.rating_container').attr('data-rotten-tomatoes-id', movie["rotten_tomatoes_id"]);
+  if (movie["netflixsource"].length){
+    $('.play_netflix').attr('href', "http://www.netflix.com/WiMovie/" + movie["netflixsource"]);
+  } else {
+    $('.play_netflix').attr('href', "http://www.netflix.com/search" + movie["title"]);
+  }
   $('#rt_link').attr('href', "http://www.rottentomatoes.com/m/" + movie["rotten_tomatoes_id"])
-  $('.synopsis').attr('style','')
+  $('.synopsis').attr('style','');
 }
 
 function delayTransitionHtml(ele, newHtml, delay, callback){
