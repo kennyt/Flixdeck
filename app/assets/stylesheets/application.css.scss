@@ -1015,22 +1015,36 @@ body {
 
 .browse_button {
 	position: fixed;
-	text-decoration: none;
-	color: #e74c3c;
-	top: 4px;
-	left: 58px;
-	font-family: arial, helvetica, sans-serif;
-	font-size: 19px;
-	font-weight: bold;
-	letter-spacing: -1px;
+	top: 220px;
+	left: 35px;
 	display: block;
 	width: 100px;
-	opacity: .6;
+	opacity: .3;
+	background-image: url('back-arrow.png');
+	background-size: 70px 70px;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100px;
+
+	border-radius: 2%;
+	border: 5px solid black;
 
 	&:hover {
-		text-decoration: underline;
-		opacity: 1;
+		opacity: .9;
 	}
+}
+.browse_button:hover::after{
+	content: 'browse';
+	position: absolute;
+	right: -125px;
+	font-family: arial, sans-serif;
+	font-size: 30px;
+	letter-spacing: -1px;
+	top: 25px;
+	color: white;
+	padding: 10px;
+	border-radius: 3%;
+	background: black;
 }
 
 .movie_index_wrapper {
