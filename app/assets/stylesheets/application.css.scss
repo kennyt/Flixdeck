@@ -78,8 +78,7 @@ body {
 }
 
 .below_rating {
-	font-weight: bold;
-	letter-spacing: -1px;
+	letter-spacing: -0.5px;
 	word-spacing: -2px;
 	color: #787878;
 	font-family: arial, helvetica, sans-serif;
@@ -100,9 +99,9 @@ body {
 }
 
 .critic_consensus {
-	font-size: 22px;
+	font-size: 18px;
 	color: #585858;
-	letter-spacing: -0.5px;
+	letter-spacing: 0px;
 }
 
 .critic_section {
@@ -484,7 +483,7 @@ body {
 	border: 5px solid #303030;
 	border-radius: 50%;
 	cursor: pointer;
-	opacity: .3;
+	opacity: .15;
 	text-align: center;
 
 	-webkit-transition: all 350ms ease-out;
@@ -1019,7 +1018,7 @@ body {
 	left: 35px;
 	display: block;
 	width: 100px;
-	opacity: .3;
+	opacity: .15;
 	background-image: url('back-arrow.png');
 	background-size: 70px 70px;
 	background-position: center;
